@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -13,12 +14,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.mapper.PostMapper;
+import com.example.mapper.UserMapper;
 import com.example.vo.UserVO;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 //@RequiredArgsConstructor
 public class UserService {
 
@@ -32,17 +34,15 @@ public class UserService {
 //	private SqlSessionFactory sqlSessionFactory;
 	
 	@Autowired
-	PostMapper postMapper;
+	UserMapper userMapper;
 	
-	
-	@Transactional
 	public void save(UserVO userVO) {
 //		try(Connection connection = sqlSessionFactory.openSession().getConnection()) {
 			
 			
 			System.out.println("세션성공");
 //			jdbcTemplate.execute("insert into account values('3','3','3')");
-			postMapper.save(userVO);
+			userMapper.save(userVO);
 			
 			
 //			String id = userVO.getId();
@@ -54,6 +54,12 @@ public class UserService {
 //			System.out.println(id+pwd+name);
 //			jdbcTemplate.execute("insert into account values('"+id+"','"+pwd+"','"+name+"')");
 		}
+	
+	public List<UserVO> getUserList() {
+		List<UserVO> userList = userMapper.getList();
+		
+		return userList;
+	}
 		
 	}
 	
