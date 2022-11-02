@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+
+mybatis:
+  config: mybatis-config.xml
+  mapper-locations: mybatis/mapper/UserMapper.xml
+
+spring:
+  datasource: 
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/test
+    username: postgres
+    password: 123456
+
