@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title> 사용자 목록 </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div th:with="uList=${userList}" class="container">
+<h1><p class="text-center">사용자 목록</p></h1>
+<table class="table table-striped">
+	<tr>
+		<th>회원아이디</th>
+		<th>회원비밀번호</th>
+		<th>회원이름</th>
+		<th>회원수정</th>
+	</tr>
+	<tr th:if="${not #lists.isEmpty(uList)}" th:each="l : ${uList}">
+		<td><a th:href="@{/delete/(lid=${l.id})}" th:text="${l.id}">삭제</a></td>
+		<td th:text="${l.pwd}"></td>
+		<td th:text="${l.name}"></td>
+		<td><input class="btn btn-primary" type="button" value="수정하기" th:onclick="|location.href='@{/alter/(uid=${l.id})}'|"/></td>
+	</tr>
+</table>
+</div>	
+</body>
+</html>

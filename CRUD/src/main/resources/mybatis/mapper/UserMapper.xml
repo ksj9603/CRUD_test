@@ -6,11 +6,27 @@
 
 <!-- Mapper를 사용하는 Repository의 전체 경로를 적어줘야함. -->
 <mapper namespace="com.example.mapper.UserMapper">
+<select id="checkId" resultType="boolean">
+	select exists (select id from account where id = #{id})
+</select>
+
 <insert id="save" parameterType="com.example.vo.UserVO">
 	insert into account values(#{id}, #{pwd}, #{name})
 </insert>
 
 <select id="getList" resultType="com.example.vo.UserVO">
-	select * from account
+	select * from account order by id;
 </select>
+
+<delete id="delUser">
+	delete from account where id = #{id}
+</delete>
+
+<select id="alterUser" resultType="com.example.vo.UserVO">
+	select * from account where id = #{id}
+</select>
+
+<update id="changeUser">
+	update account set pwd=#{pwd}, name=#{name} where id = #{id}
+</update>
 </mapper>

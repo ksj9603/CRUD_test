@@ -15,4 +15,8 @@ public class UserVO {
 	public UserVO() {
 		
 	}
+	
+	public UserVO(String id) {
+		this.id = id;
+	}
 }

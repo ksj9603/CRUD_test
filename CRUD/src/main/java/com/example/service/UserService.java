@@ -60,6 +60,26 @@ public class UserService {
 		
 		return userList;
 	}
+	
+	public boolean checkUser(UserVO userVO) {
+		boolean checkU = userMapper.checkId(userVO);
+		
+		return checkU;
+	}
+	
+	public void delUser(String id) {
+		userMapper.delUser(id);
+	}
+	
+	public List<UserVO> alterUser(String id) {
+		List<UserVO> alterUser = userMapper.alterUser(id);
+		
+		return alterUser;
+	}
+	
+	public void changeUser(UserVO userVO) {
+		userMapper.changeUser(userVO);
+	}
 		
 	}
 	

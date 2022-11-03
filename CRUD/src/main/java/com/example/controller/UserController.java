@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.service.UserService;
 import com.example.vo.UserVO;
@@ -26,30 +27,53 @@ public class UserController {
 	}
 	
 	@PostMapping(value="/addUser")
-	public String addUser(UserVO userVO){
-		try {
-		userService.save(userVO);
-		} catch(Exception e) {
-			
-		}
+	public String addUser(UserVO userVO, Model model){
+		boolean check = userService.checkUser(userVO);
 		
-		return "/userList";
+		if(check == false) {
+			userService.save(userVO);
+			
+			List<UserVO> userList = userService.getUserList();
+			model.addAttribute("userList",userList);
+		}else {
+			return "account";
+		}
+		return "/user";
 	}
 	
-	@PostMapping(value="/getUser")
+	@GetMapping(value="/getUser")
 	public String getUserList(Model model) {
 		List<UserVO> userList = userService.getUserList();
 		
 		model.addAttribute("userList",userList);
 		
-		return "/success";
+		return "/user";
 	}
 	@GetMapping(value="/delete/*")
-	public String delUserList(Model model) {
-		List<UserVO> userList = userService.getUserList();
+	public String delUserList(@RequestParam String lid, Model model) {
+		userService.delUser(lid);
 		
+		List<UserVO> userList = userService.getUserList();
 		model.addAttribute("userList",userList);
 		
-		return "/success";
+		return "/user";
+	}
+	
+	@GetMapping("/alter")
+	public String alterUser(@RequestParam String uid, Model model) {
+		List<UserVO> alterUser = userService.alterUser(uid);
+		model.addAttribute("alter",alterUser);
+		return "/alterUser";
+	}
+	
+	@PostMapping("/changeUser")
+	public String changeUser(UserVO userVO, Model model) {
+		userService.changeUser(userVO);
+		
+		List<UserVO> userList = userService.getUserList();
+		model.addAttribute("userList", userList);
+		
+		
+		return "/user";
 	}
 }
