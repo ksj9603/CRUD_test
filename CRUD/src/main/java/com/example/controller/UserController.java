@@ -68,6 +68,14 @@ public class UserController {
 	
 	@PostMapping("/changeUser")
 	public String changeUser(UserVO userVO, Model model) {
+		
+		if(userVO.getPwd().equals("") || userVO.getName().equals(""))  {
+			
+			List<UserVO> userList = userService.getUserList();
+			model.addAttribute("userList",userList);
+			return "/user";
+		}
+		
 		userService.changeUser(userVO);
 		
 		List<UserVO> userList = userService.getUserList();
