@@ -14,8 +14,15 @@
 	insert into account values(#{id}, #{pwd}, #{name})
 </insert>
 
+<insert id="boardUpload" parameterType="com.example.vo.BoardVO">
+	insert into board(text, account_id, title) values(#{text}, #{account_id}, #{title})
+</insert>
+
 <select id="getList" resultType="com.example.vo.UserVO">
-	select * from account order by id;
+	select * from account order by id
+</select>
+<select id="getBoardList" resultType="com.example.vo.BoardVO">
+	select * from board order by board_no
 </select>
 
 <delete id="delUser">
@@ -29,4 +36,9 @@
 <update id="changeUser">
 	update account set pwd=#{pwd}, name=#{name} where id = #{id}
 </update>
+
+
+<select id="checkLogin" resultType="boolean">
+	select exists (select id, pwd from account where id=#{id} and pwd=#{pwd})
+</select>
 </mapper>

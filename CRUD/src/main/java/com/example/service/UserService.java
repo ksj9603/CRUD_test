@@ -1,23 +1,15 @@
 package com.example.service;
 
-import java.sql.Connection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.mapper.UserMapper;
 import com.example.vo.UserVO;
 
-import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional

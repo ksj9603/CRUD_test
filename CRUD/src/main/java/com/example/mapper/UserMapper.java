@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import com.example.vo.BoardVO;
 import com.example.vo.UserVO;
 
 @Mapper
@@ -12,6 +13,8 @@ import com.example.vo.UserVO;
 public interface UserMapper {
 	
 	void save(UserVO userVO);
+	
+	void boardUpload(BoardVO boardVO);
 	
 	public List<UserVO> getList();
 	
@@ -22,4 +25,8 @@ public interface UserMapper {
 	public List<UserVO> alterUser(String id);
 	
 	public void changeUser(UserVO userVO);
+	
+	public boolean checkLogin(UserVO userVO);
+	
+	public List<BoardVO> getBoardList();
 }

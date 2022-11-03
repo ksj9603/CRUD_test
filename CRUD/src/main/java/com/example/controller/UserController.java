@@ -28,6 +28,9 @@ public class UserController {
 	
 	@PostMapping(value="/addUser")
 	public String addUser(UserVO userVO, Model model){
+		if(userVO.getId() == null) {
+			return "account";
+		}
 		boolean check = userService.checkUser(userVO);
 		
 		if(check == false) {
@@ -38,7 +41,7 @@ public class UserController {
 		}else {
 			return "account";
 		}
-		return "/user";
+		return "/Login";
 	}
 	
 	@GetMapping(value="/getUser")
