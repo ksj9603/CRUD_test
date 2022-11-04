@@ -13,19 +13,23 @@
 
 <div class="container">
  <h1><p class="text-center">게시판</p></h1> <input class="btn btn-primary" type="button" value="게시글 작성" th:onclick="|location.href='@{/boardPage'}|"/>
+ <input class="btn btn-primary" type="button" value="로그아웃" th:onclick="|location.href='@{/logout'}|"/>
+ <input class="btn btn-primary" th:if="${id == 'admin'} "type="button" value="회원 목록" th:onclick="|location.href='@{/getUser'}|"/>
  <table class="table table-striped">
 	<tr>
 		<th>게시글 번호</th>
 		<th>제목</th>
 		<th>내용</th>
 		<th>게시자</th>
+		<th>삭제</th>
 	</tr>
-	<tr th:if="${not #lists.isEmpty(board)}" th:each="l : ${board}">
-		<td th:text="${l.board_no}"></td>
+	<tr th:if="${not #lists.isEmpty(board)}" th:each="l ,num : ${board}">
+		<td th:text="${num.count}"></td>
 		<td th:text="${l.title}"></td>
 		<td th:text="${l.text}"></td>
 		<td th:text="${l.account_id}"></td>
-	</tr>
+		<td> <input type="button" class="btn btn-primary" value="삭제" th:onclick="|location.href='@{/deleteBoard/(board_no=${l.board_no})}'|"/></td>
+	</tr>																							
 </table>
 </div>
 

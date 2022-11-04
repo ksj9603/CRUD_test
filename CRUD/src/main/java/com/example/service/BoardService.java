@@ -26,4 +26,14 @@ public class BoardService {
 	public void BoardUpload(BoardVO boardVO) {
 		userMapper.boardUpload(boardVO);
 	}
+	public void delBoard(int board_no, String account_id) {
+		userMapper.delBoard(board_no, account_id);
+	}
+	
+	public boolean checkBoard(String board_no, String account_id) {
+		boolean check = userMapper.checkBoard(board_no, account_id);
+		
+		return check; 
+	}
+	
 }

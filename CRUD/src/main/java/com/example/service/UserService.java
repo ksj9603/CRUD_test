@@ -59,6 +59,7 @@ public class UserService {
 		return checkU;
 	}
 	
+	
 	public void delUser(String id) {
 		userMapper.delUser(id);
 	}
@@ -74,5 +75,3 @@ public class UserService {
 	}
 		
 	}
-	
-

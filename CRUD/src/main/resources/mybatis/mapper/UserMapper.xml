@@ -10,12 +10,16 @@
 	select exists (select id from account where id = #{id})
 </select>
 
+<select id="checkBoard" resultType="boolean" parameterType="map">
+	select exists (select board_no, account_id from board where board_no=#{board_no} and account_id=#{account_id})
+</select>
+
 <insert id="save" parameterType="com.example.vo.UserVO">
 	insert into account values(#{id}, #{pwd}, #{name})
 </insert>
 
 <insert id="boardUpload" parameterType="com.example.vo.BoardVO">
-	insert into board(text, account_id, title) values(#{text}, #{account_id}, #{title})
+	insert into board(title, text, account_id) values(#{title}, #{text}, #{account_id})
 </insert>
 
 <select id="getList" resultType="com.example.vo.UserVO">
@@ -27,6 +31,10 @@
 
 <delete id="delUser">
 	delete from account where id = #{id}
+</delete>
+
+<delete id="delBoard">
+	delete from board where board_no = #{board_no} and account_id = #{account_id}
 </delete>
 
 <select id="alterUser" resultType="com.example.vo.UserVO">

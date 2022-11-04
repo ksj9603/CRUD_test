@@ -1,7 +1,6 @@
 package com.example.controller;
 
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,13 +42,34 @@ public class LoginController {
 		
 		List<BoardVO> boardList = boardService.getBoardList();
 		
+		model.addAttribute("id",session.getAttribute("loginSession"));
 		model.addAttribute("board",boardList);
 		
 		return "/main";
 	}
 	
-	@GetMapping("login")
-	public String loginPage() {
+	@GetMapping("/login")
+	public String loginPage(Model model, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("loginSession");
+		System.out.println(id);
+		if(id != null) {
+			List<BoardVO> boardList = boardService.getBoardList();
+			model.addAttribute("board",boardList);
+			
+			model.addAttribute("id",session.getAttribute("loginSession"));
+			return "/main";
+		}
+		return "/Login";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("loginSession");
+		session.removeAttribute(id);
+		session.invalidate();
 		return "/Login";
 	}
 	

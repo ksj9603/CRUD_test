@@ -21,5 +21,10 @@ public class BoardVO {
 		this.text = text;
 		this.account_id = account_id;
 	}
+	
+	public BoardVO(int board_no, String account_id) {
+		this.board_no = board_no;
+		this.account_id = account_id;
+	}
 
 }
