@@ -36,4 +36,14 @@ public class BoardService {
 		return check; 
 	}
 	
+	public List<BoardVO> alterBoard(int board_no) {
+		List<BoardVO> board = userMapper.alterBoard(board_no);
+		
+		return board;
+	}
+	
+	public void boardAlter(BoardVO boardVO) {
+		userMapper.boardAlter(boardVO);
+	}
+	
 }

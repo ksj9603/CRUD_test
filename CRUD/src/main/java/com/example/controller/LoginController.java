@@ -11,6 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.service.BoardService;
 import com.example.service.LoginService;
@@ -48,7 +53,7 @@ public class LoginController {
 		return "/main";
 	}
 	
-	@GetMapping("/login")
+	@GetMapping("/")
 	public String loginPage(Model model, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
@@ -63,6 +68,21 @@ public class LoginController {
 		}
 		return "/Login";
 	}
+	
+	@PostMapping(value="/accountCheck")
+	@ResponseBody
+	public boolean gogo(@RequestBody UserVO userVO, HttpServletRequest request) {
+		System.out.println(userVO.getId());
+		boolean check = loginService.checkLogin(userVO);
+		if(check == false) {
+			return false;
+		}		
+		HttpSession session = request.getSession();
+		session.setAttribute("loginSession", userVO.getId());
+		
+		return true;
+	}
+	
 	
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {

@@ -16,6 +16,7 @@ public class BoardVO {
 	private String text;
 	private String account_id;
 	
+	
 	public BoardVO(String title, String text, String account_id) {
 		this.title= title;
 		this.text = text;
@@ -25,6 +26,10 @@ public class BoardVO {
 	public BoardVO(int board_no, String account_id) {
 		this.board_no = board_no;
 		this.account_id = account_id;
+	}
+	
+	public BoardVO(int board_no) {
+		this.board_no = board_no;
 	}
 
 }

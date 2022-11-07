@@ -7,7 +7,7 @@
 <!-- Mapper를 사용하는 Repository의 전체 경로를 적어줘야함. -->
 <mapper namespace="com.example.mapper.UserMapper">
 <select id="checkId" resultType="boolean">
-	select exists (select id from account where id = #{id})
+	select exists (select id from account where id = #{id} and pwd = #{pwd})
 </select>
 
 <select id="checkBoard" resultType="boolean" parameterType="map">
@@ -44,9 +44,15 @@
 <update id="changeUser">
 	update account set pwd=#{pwd}, name=#{name} where id = #{id}
 </update>
+<update id="boardAlter">
+	update board set title=#{title}, text=#{text} where account_id=#{account_id} and board_no = ${board_no}
+</update>
 
 
 <select id="checkLogin" resultType="boolean">
 	select exists (select id, pwd from account where id=#{id} and pwd=#{pwd})
+</select>
+<select id="alterBoard" resultType="com.example.vo.BoardVO">
+	select * from board where board_no = #{board_no}
 </select>
 </mapper>

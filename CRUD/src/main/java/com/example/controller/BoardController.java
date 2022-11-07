@@ -28,6 +28,9 @@ public class BoardController {
 	@GetMapping("/boardPage")
 	public String boardPage(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
+		if(session.getAttribute("loginSession") == null) {
+			return "Login";
+		}
 		model.addAttribute("id",session.getAttribute("loginSession"));
 		return "board";
 	}
@@ -45,9 +48,26 @@ public class BoardController {
 		model.addAttribute("id", session.getAttribute("loginSession"));
 		return "main";
 	}
+	@PostMapping("/boardAlter") 
+	public String boardAlter(Model model, BoardVO boardVO, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		boardService.boardAlter(boardVO);
+		System.out.println(boardVO.getAccount_id());
+		
+		List<BoardVO> boardList = boardService.getBoardList();
+		
+		model.addAttribute("board",boardList);
+		model.addAttribute("id", session.getAttribute("loginSession"));
+		
+		
+		return "main";
+	}
 	
 	@GetMapping("/boardList")
-	public String boardList(Model model, BoardVO boardVO) {
+	public String boardList(Model model, BoardVO boardVO, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		model.addAttribute("id",session.getAttribute("loginSession"));
 		List<BoardVO> boardList = boardService.getBoardList();
 		
 		model.addAttribute("board",boardList);
@@ -66,5 +86,18 @@ public class BoardController {
 		model.addAttribute("board",boardList);
 		
 		return "/main";
+	}
+	
+	@GetMapping(value="/alterBoard/*")
+	public String alterBoard(@RequestParam int board_no, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String a = (String)session.getAttribute("loginSession");
+		List<BoardVO> board = boardService.alterBoard(board_no);
+		if (board.get(0).getAccount_id().equals(a)){
+			model.addAttribute("board",board);
+			return "alterBoard";
+		}
+		return "redirect:/boardList";
+		
 	}
 }

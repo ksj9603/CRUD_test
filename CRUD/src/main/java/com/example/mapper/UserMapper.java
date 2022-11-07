@@ -34,4 +34,8 @@ public interface UserMapper {
 	public boolean checkLogin(UserVO userVO);
 	
 	public List<BoardVO> getBoardList();
+	
+	public List<BoardVO> alterBoard(int board_no);
+	
+	public void boardAlter(BoardVO boardVO);
 }
