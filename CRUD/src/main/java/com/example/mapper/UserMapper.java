@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.vo.BoardVO;
+import com.example.vo.SearchVO;
 import com.example.vo.UserVO;
 
 @Mapper
@@ -38,4 +39,6 @@ public interface UserMapper {
 	public List<BoardVO> alterBoard(int board_no);
 	
 	public void boardAlter(BoardVO boardVO);
+	
+	public List<BoardVO> findAll(SearchVO searchVO);
 }

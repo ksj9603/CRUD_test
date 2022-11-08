@@ -12,12 +12,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.service.BoardService;
 import com.example.vo.BoardVO;
 import com.example.vo.FileVO;
+import com.example.vo.SearchVO;
 import com.example.vo.UserVO;
 
 import lombok.NoArgsConstructor;
@@ -63,8 +66,14 @@ public class BoardController {
 		return "main";
 	}
 	@PostMapping("/boardAlter") 
-	public String boardAlter(Model model, BoardVO boardVO, HttpServletRequest request) {
+	public String boardAlter(Model model, BoardVO boardVO,@RequestParam("imageFiles") MultipartFile imageFiles, HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
+		if(!imageFiles.isEmpty()) {
+			String imagefile = imageFiles.getOriginalFilename();
+			boardVO.setImagefile(imagefile);
+			String fullPath = dir + imagefile;
+			imageFiles.transferTo(new File(fullPath));
+		}
 		boardService.boardAlter(boardVO);
 		System.out.println(boardVO.getAccount_id());
 		
@@ -76,16 +85,51 @@ public class BoardController {
 		
 		return "main";
 	}
-	
 	@GetMapping("/boardList")
-	public String boardList(Model model, BoardVO boardVO, HttpServletRequest request) {
+	public String boardList() {
+		return "/main";
+	}
+	
+	@PostMapping("/getBoardList")
+	@ResponseBody
+	public List<BoardVO> boardList(Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		model.addAttribute("id",session.getAttribute("loginSession"));
-		List<BoardVO> boardList = boardService.getBoardList();
+		List<BoardVO> boardList = boardService.findAll(searchVO);
+//		List<BoardVO> boardList = boardService.getBoardList();
 		
 		model.addAttribute("board",boardList);
-		return "/main";
+		System.out.println(boardList);
+		return boardList;
+	}
+	@PostMapping("/getBoardList3")
+	@ResponseBody
+	public List<BoardVO> boardList3(@RequestParam("page") String page, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
+		System.out.println(page);
+		searchVO.setPage(Integer.parseInt(page));
+		HttpSession session = request.getSession();
+		model.addAttribute("id",session.getAttribute("loginSession"));
+		List<BoardVO> boardList = boardService.findAll(searchVO);
+//		List<BoardVO> boardList = boardService.getBoardList();
+		
+		model.addAttribute("board",boardList);
+		System.out.println(boardList);
+		return boardList;
+	}
+	
+	@PostMapping("/getAllBoardList")
+	@ResponseBody
+	public List<BoardVO> boardList1(Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		model.addAttribute("id",session.getAttribute("loginSession"));
+//		List<BoardVO> boardList = boardService.findAll(searchVO);
+		List<BoardVO> boardList1 = boardService.getBoardList();
+		
+		model.addAttribute("board1",boardList1);
+		System.out.println(boardList1);
+		return boardList1;
 	}
 	
 	@GetMapping(value="/deleteBoard/*")

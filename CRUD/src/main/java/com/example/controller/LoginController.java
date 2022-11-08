@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.service.BoardService;
 import com.example.service.LoginService;
 import com.example.vo.BoardVO;
+import com.example.vo.SearchVO;
 import com.example.vo.UserVO;
 
 import lombok.NoArgsConstructor;
@@ -46,7 +47,6 @@ public class LoginController {
 		session.setAttribute("loginSession", id);
 		
 		List<BoardVO> boardList = boardService.getBoardList();
-		
 		model.addAttribute("id",session.getAttribute("loginSession"));
 		model.addAttribute("board",boardList);
 		

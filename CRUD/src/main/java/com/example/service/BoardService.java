@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.mapper.UserMapper;
 import com.example.vo.BoardVO;
+import com.example.vo.SearchVO;
 
 @Service
 @Transactional
@@ -47,6 +48,12 @@ public class BoardService {
 	
 	public void boardAlter(BoardVO boardVO) {
 		userMapper.boardAlter(boardVO);
+	}
+	
+	public List<BoardVO> findAll(SearchVO searchVO) {
+		List<BoardVO> boardList = userMapper.findAll(searchVO );
+		return boardList;
+		
 	}
 	
 }

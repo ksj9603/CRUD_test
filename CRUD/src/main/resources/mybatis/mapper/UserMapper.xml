@@ -29,6 +29,10 @@
 	select * from board order by board_no
 </select>
 
+<select id="findAll" parameterType="com.example.vo.SearchVO" resultType="com.example.vo.BoardVO">
+	select * from board order by board_no limit #{recordSize} offset #{offset}
+</select>
+
 <delete id="delUser">
 	delete from account where id = #{id}
 </delete>
@@ -45,7 +49,7 @@
 	update account set pwd=#{pwd}, name=#{name} where id = #{id}
 </update>
 <update id="boardAlter">
-	update board set title=#{title}, text=#{text} where account_id=#{account_id} and board_no = ${board_no}
+	update board set title=#{title}, text=#{text}, imagefile=#{imagefile} where account_id=#{account_id} and board_no = ${board_no}
 </update>
 
 

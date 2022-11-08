@@ -13,7 +13,7 @@
 
 <div class="container" th:each="l: ${board}">
 <h1><p class="text-center">게시글 수정</p></h1>
-<form action="/boardAlter" method="post">
+<form action="/boardAlter" method="post" enctype="multipart/form-data">
   <div class="form-group">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -30,6 +30,7 @@
       <textarea class="form-control" rows="5" name="text" th:text="${l.text}"></textarea>
   </div>
   </div>
+  <input type="file" name="imageFiles" th:values="${l.imagefile}"/>
   <input type="hidden" name="board_no" th:value="${l.board_no}"/>
   <input type="hidden" name="account_id" th:value="${l.account_id}"/>
   <button type="submit" class="btn btn-primary">등록하기</button>
