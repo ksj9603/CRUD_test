@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.service.BoardService;
 import com.example.vo.BoardVO;
+import com.example.vo.FileVO;
 import com.example.vo.UserVO;
 
 import lombok.NoArgsConstructor;
@@ -24,6 +28,8 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	private final String dir = "C:\\Dev\\image\\";
 	
 	@GetMapping("/boardPage")
 	public String boardPage(HttpServletRequest request, Model model) {
@@ -36,9 +42,17 @@ public class BoardController {
 	}
 	
 	@PostMapping("/boardUpload")
-	public String boardUpload(Model model, BoardVO boardVO, HttpServletRequest request) {
-		
+	public String boardUpload(Model model, @RequestParam("imageFiles") MultipartFile imageFiles, BoardVO boardVO, HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
+		System.out.println(imageFiles.getOriginalFilename());
+		if(!imageFiles.isEmpty()) {
+			String imagefile = imageFiles.getOriginalFilename();
+			boardVO.setImagefile(imagefile);
+			String fullPath = dir + imagefile;
+			imageFiles.transferTo(new File(fullPath));
+		} else {
+			boardVO.setImagefile(null);
+		}
 		
 		boardService.BoardUpload(boardVO);
 		

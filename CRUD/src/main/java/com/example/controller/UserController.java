@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.service.UserService;
 import com.example.vo.UserVO;
@@ -28,21 +30,21 @@ public class UserController {
 	}
 	
 	@PostMapping(value="/addUser")
-	public String addUser(UserVO userVO, Model model){
+	@ResponseBody
+	public boolean addUser(@RequestBody UserVO userVO, Model model){
+		System.out.println(userVO.getId() + userVO.getPwd() + userVO.getName());
 		if(userVO.getId() == null) {
-			return "account";
+			return false;
 		}
 		boolean check = userService.checkUser(userVO);
 		
 		if(check == false) {
 			userService.save(userVO);
 			
-			List<UserVO> userList = userService.getUserList();
-			model.addAttribute("userList",userList);
 		}else {
-			return "account";
+			return false;
 		}
-		return "/Login";
+		return true;
 	}
 	
 	@GetMapping(value="/getUser")

@@ -19,7 +19,7 @@
 </insert>
 
 <insert id="boardUpload" parameterType="com.example.vo.BoardVO">
-	insert into board(title, text, account_id) values(#{title}, #{text}, #{account_id})
+	insert into board(title, text, account_id, imagefile) values(#{title}, #{text}, #{account_id}, #{imagefile})
 </insert>
 
 <select id="getList" resultType="com.example.vo.UserVO">
