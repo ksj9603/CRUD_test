@@ -1,5 +1,6 @@
 package com.example.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -41,4 +42,8 @@ public interface UserMapper {
 	public void boardAlter(BoardVO boardVO);
 	
 	public List<BoardVO> findAll(SearchVO searchVO);
+	
+	public List<BoardVO> searchBoard(HashMap<String, Object> board);
+	
+	public List<BoardVO> searchAllBoard(HashMap<String, Object> board);
 }

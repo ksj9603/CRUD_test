@@ -25,6 +25,7 @@
 <select id="getList" resultType="com.example.vo.UserVO">
 	select * from account order by id
 </select>
+
 <select id="getBoardList" resultType="com.example.vo.BoardVO">
 	select * from board order by board_no
 </select>
@@ -49,14 +50,52 @@
 	update account set pwd=#{pwd}, name=#{name} where id = #{id}
 </update>
 <update id="boardAlter">
-	update board set title=#{title}, text=#{text}, imagefile=#{imagefile} where account_id=#{account_id} and board_no = ${board_no}
+	update board set title=#{title}, text=#{text}, imagefile=#{imagefile} where account_id=#{account_id} and board_no = #{board_no}
 </update>
-
 
 <select id="checkLogin" resultType="boolean">
 	select exists (select id, pwd from account where id=#{id} and pwd=#{pwd})
 </select>
+
 <select id="alterBoard" resultType="com.example.vo.BoardVO">
 	select * from board where board_no = #{board_no}
+</select>
+
+<select id="searchBoard" parameterType="HashMap" resultType="com.example.vo.BoardVO">
+	<!-- select * from board 
+		<if test = 'droper == "title || text || account_id" and search != null '>
+		where title || text || account_id like '%'||#{search}||'%'
+		</if>
+		<if test = 'droper == "title" and search != null ' >
+         where title like '%'||#{search}||'%' 
+        </if>
+        <if test = 'droper == "text" and search != null ' >
+         where text like '%'||#{search}||'%' 
+        </if>
+        <if test = 'droper == "account_id" and search != null ' >
+         where account_id like '%'||#{search}||'%' 
+        </if>
+    order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset} !-->
+    
+   select * from board where ${droper} like '%'||#{search}||'%' order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
+</select>
+
+<select id="searchAllBoard" parameterType="HashMap"  resultType="com.example.vo.BoardVO">
+	<!-- select * from board 
+		<if test = 'droper == "title || text || account_id" and search != null '>
+		where title || text || account_id like '%'||#{search}||'%'
+		</if>
+		<if test = 'droper == "title" and search != null ' >
+         where title like '%'||#{search}||'%' 
+        </if>
+        <if test = 'droper == "text" and search != null ' >
+         where text like '%'||#{search}||'%' 
+        </if>
+        <if test = 'droper == "account_id" and search != null ' >
+         where account_id like '%'||#{search}||'%' 
+        </if>
+    order by board_no !-->
+    
+      select * from board where ${droper} like '%'||#{search}||'%' order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
 </select>
 </mapper>

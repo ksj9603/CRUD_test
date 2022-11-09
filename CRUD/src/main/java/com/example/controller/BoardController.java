@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,11 @@ public class BoardController {
 	private BoardService boardService;
 	
 	private final String dir = "C:\\Dev\\image\\";
+	
+	@GetMapping("/main2")
+	public String main2() {
+		return "main2";
+	}
 	
 	@GetMapping("/boardPage")
 	public String boardPage(HttpServletRequest request, Model model) {
@@ -103,11 +109,11 @@ public class BoardController {
 		System.out.println(boardList);
 		return boardList;
 	}
-	@PostMapping("/getBoardList3")
+	@PostMapping("/changePage")
 	@ResponseBody
-	public List<BoardVO> boardList3(@RequestParam("page") String page, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
+	public List<BoardVO> changePage(@RequestParam("page") int page, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
 		System.out.println(page);
-		searchVO.setPage(Integer.parseInt(page));
+		searchVO.setPage(page);
 		HttpSession session = request.getSession();
 		model.addAttribute("id",session.getAttribute("loginSession"));
 		List<BoardVO> boardList = boardService.findAll(searchVO);
@@ -157,5 +163,45 @@ public class BoardController {
 		}
 		return "redirect:/boardList";
 		
+	}
+	
+	@PostMapping("/searchBoard")
+	@ResponseBody
+	public List<BoardVO> searchBoard(@RequestParam("search") String search, @RequestParam("droper") String droper, SearchVO searchVO ,Model mode ,HttpServletRequest request) {
+//		System.out.println(searchVO.getRecordSize());
+//		System.out.println(search);
+//		System.out.println(drop);
+//		System.out.println(search);
+		HashMap<String, Object> board = new HashMap<String, Object>();
+		board.put("search", search);
+		board.put("searchVO", searchVO);
+		board.put("droper", droper);
+		List<BoardVO> boardList = boardService.searchBoard(board);
+		
+		return boardList;
+	}
+	@PostMapping("/searchBoardpage")
+	@ResponseBody
+	public List<BoardVO> searchBoardpage(@RequestParam("search") String search, @RequestParam("page") int page,@RequestParam("droper") String droper, SearchVO searchVO ,Model mode ,HttpServletRequest request) {
+//		System.out.println(searchVO.getRecordSize());
+//		System.out.println(search);
+		searchVO.setPage(page);
+		HashMap<String, Object> board = new HashMap<String, Object>();
+		board.put("search", search);
+		board.put("searchVO", searchVO);
+		board.put("droper", droper);
+		List<BoardVO> boardList = boardService.searchBoard(board);
+		
+		return boardList;
+	}
+	
+	@PostMapping("/searchAllBoard")
+	@ResponseBody
+	public List<BoardVO> searchAllBoard(@RequestParam("search") String search,@RequestParam("droper") String droper, Model model, HttpServletRequest request) {
+		HashMap<String, Object> board = new HashMap<String, Object>();
+		board.put("search", search);
+		board.put("droper", droper);
+		List<BoardVO> boardList = boardService.searchAllBoard(board);
+		return boardList;
 	}
 }

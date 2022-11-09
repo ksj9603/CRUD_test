@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -54,6 +55,16 @@ public class BoardService {
 		List<BoardVO> boardList = userMapper.findAll(searchVO );
 		return boardList;
 		
+	}
+	
+	public List<BoardVO> searchBoard(HashMap<String,Object> board) {
+		List<BoardVO> boardList = userMapper.searchBoard(board);
+		return boardList;
+	}
+	
+	public List<BoardVO> searchAllBoard(HashMap<String,Object> board) {
+		List<BoardVO> boardList = userMapper.searchAllBoard(board);
+		return boardList;
 	}
 	
 }
