@@ -19,7 +19,13 @@
 </insert>
 
 <insert id="boardUpload" parameterType="com.example.vo.BoardVO">
-	insert into board(title, text, account_id, imagefile) values(#{title}, #{text}, #{account_id}, #{imagefile})
+	insert into board(title, text, account_id, imagefile, category)
+	<if test = 'imagefile == null'>
+	 	values(#{title}, #{text}, #{account_id}, #{imagefile}, 1)
+	</if>
+	<if test="imagefile != null">
+		values(#{title}, #{text}, #{account_id}, #{imagefile}, 2)
+	</if>
 </insert>
 
 <select id="getList" resultType="com.example.vo.UserVO">
@@ -27,11 +33,20 @@
 </select>
 
 <select id="getBoardList" resultType="com.example.vo.BoardVO">
-	select * from board order by board_no
+	select * from board
+	<if test="category != 0">
+		where category = #{category}
+	</if>
+	
+	 order by board_no
 </select>
 
-<select id="findAll" parameterType="com.example.vo.SearchVO" resultType="com.example.vo.BoardVO">
-	select * from board order by board_no limit #{recordSize} offset #{offset}
+<select id="findAll" parameterType="HashMap" resultType="com.example.vo.BoardVO">
+	select * from board 
+	<if test="category != 0">
+		where category = #{category}
+	</if>
+	order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
 </select>
 
 <delete id="delUser">
@@ -62,22 +77,24 @@
 </select>
 
 <select id="searchBoard" parameterType="HashMap" resultType="com.example.vo.BoardVO">
-	<!-- select * from board 
-		<if test = 'droper == "title || text || account_id" and search != null '>
-		where title || text || account_id like '%'||#{search}||'%'
-		</if>
+	 select * from board where
+	 
+	 	<if test="category != 0 ">
+	 		category=#{category} and 
+	 	</if>
 		<if test = 'droper == "title" and search != null ' >
-         where title like '%'||#{search}||'%' 
+          title like '%'||#{search}||'%' 
         </if>
         <if test = 'droper == "text" and search != null ' >
-         where text like '%'||#{search}||'%' 
+          text like '%'||#{search}||'%' 
         </if>
         <if test = 'droper == "account_id" and search != null ' >
-         where account_id like '%'||#{search}||'%' 
+          account_id like '%'||#{search}||'%' 
         </if>
-    order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset} !-->
+    	
+    	order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset} 
     
-   select * from board where ${droper} like '%'||#{search}||'%' order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
+  <!-- select * from board where ${droper} like concat('%',#{search},'%') order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset} !-->
 </select>
 
 <select id="searchAllBoard" parameterType="HashMap"  resultType="com.example.vo.BoardVO">
@@ -96,6 +113,10 @@
         </if>
     order by board_no !-->
     
-      select * from board where ${droper} like '%'||#{search}||'%' order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
+      select * from board where 
+      <if test="category != 0">
+      		category = #{category} and 
+      </if>
+      ${droper} like '%'||#{search}||'%' order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
 </select>
 </mapper>

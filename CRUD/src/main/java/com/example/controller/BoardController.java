@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Controller
 @NoArgsConstructor
 public class BoardController {
-
+	int cate = 0;
 	@Autowired
 	private BoardService boardService;
 	
@@ -40,7 +40,7 @@ public class BoardController {
 		return "main2";
 	}
 	
-	@GetMapping("/boardPage")
+	@GetMapping("/board/boardPage")
 	public String boardPage(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("loginSession") == null) {
@@ -50,7 +50,7 @@ public class BoardController {
 		return "board";
 	}
 	
-	@PostMapping("/boardUpload")
+	@PostMapping("/board/boardUpload")
 	public String boardUpload(Model model, @RequestParam("imageFiles") MultipartFile imageFiles, BoardVO boardVO, HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
 		System.out.println(imageFiles.getOriginalFilename());
@@ -65,13 +65,13 @@ public class BoardController {
 		
 		boardService.BoardUpload(boardVO);
 		
-		List<BoardVO> boardList = boardService.getBoardList();
+		List<BoardVO> boardList = boardService.getBoardList(cate);
 		
 		model.addAttribute("board",boardList);
 		model.addAttribute("id", session.getAttribute("loginSession"));
 		return "main";
 	}
-	@PostMapping("/boardAlter") 
+	@PostMapping("/board/boardAlter") 
 	public String boardAlter(Model model, BoardVO boardVO,@RequestParam("imageFiles") MultipartFile imageFiles, HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
 		if(!imageFiles.isEmpty()) {
@@ -83,7 +83,7 @@ public class BoardController {
 		boardService.boardAlter(boardVO);
 		System.out.println(boardVO.getAccount_id());
 		
-		List<BoardVO> boardList = boardService.getBoardList();
+		List<BoardVO> boardList = boardService.getBoardList(cate);
 		
 		model.addAttribute("board",boardList);
 		model.addAttribute("id", session.getAttribute("loginSession"));
@@ -91,32 +91,41 @@ public class BoardController {
 		
 		return "main";
 	}
-	@GetMapping("/boardList")
+	@GetMapping("/board/boardList")
 	public String boardList() {
 		return "/main";
 	}
 	
-	@PostMapping("/getBoardList")
+	@PostMapping("/board/getBoardList")
 	@ResponseBody
-	public List<BoardVO> boardList(Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
-		
+	public List<BoardVO> boardList(@RequestParam("category") int category, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		model.addAttribute("id",session.getAttribute("loginSession"));
-		List<BoardVO> boardList = boardService.findAll(searchVO);
+		HashMap<String, Object> board = new HashMap<String, Object>();
+		
+		System.out.println(category);
+		
+		board.put("category", category);
+		board.put("searchVO", searchVO);
+		List<BoardVO> boardList = boardService.findAll(board);
 //		List<BoardVO> boardList = boardService.getBoardList();
 		
 		model.addAttribute("board",boardList);
 		System.out.println(boardList);
 		return boardList;
 	}
-	@PostMapping("/changePage")
+	@PostMapping("/board/changePage")
 	@ResponseBody
-	public List<BoardVO> changePage(@RequestParam("page") int page, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
-		System.out.println(page);
+	public List<BoardVO> changePage(@RequestParam("category") int category,@RequestParam("page") int page, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
 		searchVO.setPage(page);
 		HttpSession session = request.getSession();
 		model.addAttribute("id",session.getAttribute("loginSession"));
-		List<BoardVO> boardList = boardService.findAll(searchVO);
+		
+		HashMap<String, Object> board = new HashMap<String, Object>();
+		
+		board.put("category", category);
+		board.put("searchVO", searchVO);
+		List<BoardVO> boardList = boardService.findAll(board);
 //		List<BoardVO> boardList = boardService.getBoardList();
 		
 		model.addAttribute("board",boardList);
@@ -124,21 +133,23 @@ public class BoardController {
 		return boardList;
 	}
 	
-	@PostMapping("/getAllBoardList")
+	@PostMapping("/board/getAllBoardList")
 	@ResponseBody
-	public List<BoardVO> boardList1(Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
+	public List<BoardVO> boardList1(@RequestParam("category") int category, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		model.addAttribute("id",session.getAttribute("loginSession"));
 //		List<BoardVO> boardList = boardService.findAll(searchVO);
-		List<BoardVO> boardList1 = boardService.getBoardList();
+		
+		
+		List<BoardVO> boardList1 = boardService.getBoardList(category);
 		
 		model.addAttribute("board1",boardList1);
 		System.out.println(boardList1);
 		return boardList1;
 	}
 	
-	@GetMapping(value="/deleteBoard/*")
+	@GetMapping(value="/board/deleteBoard/*")
 	public String delUserList(@RequestParam int board_no, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String account_id = (String) session.getAttribute("loginSession");
@@ -146,13 +157,13 @@ public class BoardController {
 		
 		boardService.delBoard(board_no, account_id);
 		
-		List<BoardVO> boardList = boardService.getBoardList();
+		List<BoardVO> boardList = boardService.getBoardList(cate);
 		model.addAttribute("board",boardList);
 		
 		return "/main";
 	}
 	
-	@GetMapping(value="/alterBoard/*")
+	@GetMapping(value="/board/alterBoard/*")
 	public String alterBoard(@RequestParam int board_no, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String a = (String)session.getAttribute("loginSession");
@@ -161,28 +172,29 @@ public class BoardController {
 			model.addAttribute("board",board);
 			return "alterBoard";
 		}
-		return "redirect:/boardList";
+		return "redirect:/board/boardList";
 		
 	}
 	
-	@PostMapping("/searchBoard")
+	@PostMapping("/board/searchBoard")
 	@ResponseBody
-	public List<BoardVO> searchBoard(@RequestParam("search") String search, @RequestParam("droper") String droper, SearchVO searchVO ,Model mode ,HttpServletRequest request) {
+	public List<BoardVO> searchBoard(@RequestParam("category") int category,@RequestParam("search") String search, @RequestParam("droper") String droper, SearchVO searchVO ,Model mode ,HttpServletRequest request) {
 //		System.out.println(searchVO.getRecordSize());
 //		System.out.println(search);
 //		System.out.println(drop);
-//		System.out.println(search);
+		System.out.println("search"+ search);
 		HashMap<String, Object> board = new HashMap<String, Object>();
 		board.put("search", search);
 		board.put("searchVO", searchVO);
 		board.put("droper", droper);
+		board.put("category", category);
 		List<BoardVO> boardList = boardService.searchBoard(board);
 		
 		return boardList;
 	}
-	@PostMapping("/searchBoardpage")
+	@PostMapping("/board/searchBoardpage")
 	@ResponseBody
-	public List<BoardVO> searchBoardpage(@RequestParam("search") String search, @RequestParam("page") int page,@RequestParam("droper") String droper, SearchVO searchVO ,Model mode ,HttpServletRequest request) {
+	public List<BoardVO> searchBoardpage(@RequestParam("category") int category,@RequestParam("search") String search, @RequestParam("page") int page,@RequestParam("droper") String droper, SearchVO searchVO ,Model mode ,HttpServletRequest request) {
 //		System.out.println(searchVO.getRecordSize());
 //		System.out.println(search);
 		searchVO.setPage(page);
@@ -190,17 +202,19 @@ public class BoardController {
 		board.put("search", search);
 		board.put("searchVO", searchVO);
 		board.put("droper", droper);
+		board.put("category", category);
 		List<BoardVO> boardList = boardService.searchBoard(board);
 		
 		return boardList;
 	}
 	
-	@PostMapping("/searchAllBoard")
+	@PostMapping("/board/searchAllBoard")
 	@ResponseBody
-	public List<BoardVO> searchAllBoard(@RequestParam("search") String search,@RequestParam("droper") String droper, Model model, HttpServletRequest request) {
+	public List<BoardVO> searchAllBoard(@RequestParam("category") int category,@RequestParam("search") String search,@RequestParam("droper") String droper, Model model, HttpServletRequest request) {
 		HashMap<String, Object> board = new HashMap<String, Object>();
 		board.put("search", search);
 		board.put("droper", droper);
+		board.put("category", category);
 		List<BoardVO> boardList = boardService.searchAllBoard(board);
 		return boardList;
 	}

@@ -34,8 +34,11 @@ public class LoginController {
 	@Autowired
 	private BoardService boardService;
 	
+	int cate = 0;
+	
 	@PostMapping("/sendData")
 	public String login(UserVO userVO, Model model, HttpServletRequest request) {
+		
 		boolean check = loginService.checkLogin(userVO);
 		String error = "아이디 및 비밀번호가 틀립니다.";
 		String id = userVO.getId();
@@ -46,7 +49,7 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		session.setAttribute("loginSession", id);
 		
-		List<BoardVO> boardList = boardService.getBoardList();
+		List<BoardVO> boardList = boardService.getBoardList(cate);
 		model.addAttribute("id",session.getAttribute("loginSession"));
 		model.addAttribute("board",boardList);
 		
@@ -60,7 +63,7 @@ public class LoginController {
 		String id = (String) session.getAttribute("loginSession");
 		System.out.println(id);
 		if(id != null) {
-			List<BoardVO> boardList = boardService.getBoardList();
+			List<BoardVO> boardList = boardService.getBoardList(cate);
 			model.addAttribute("board",boardList);
 			
 			model.addAttribute("id",session.getAttribute("loginSession"));

@@ -35,13 +35,13 @@ public interface UserMapper {
 	
 	public boolean checkLogin(UserVO userVO);
 	
-	public List<BoardVO> getBoardList();
+	public List<BoardVO> getBoardList(int category);
 	
 	public List<BoardVO> alterBoard(int board_no);
 	
 	public void boardAlter(BoardVO boardVO);
 	
-	public List<BoardVO> findAll(SearchVO searchVO);
+	public List<BoardVO> findAll(HashMap<String, Object> board);
 	
 	public List<BoardVO> searchBoard(HashMap<String, Object> board);
 	

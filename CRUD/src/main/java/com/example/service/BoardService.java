@@ -22,8 +22,8 @@ public class BoardService {
 	@Autowired
 	UserMapper userMapper;
 	
-	public List<BoardVO> getBoardList() {
-		List<BoardVO> boardList = userMapper.getBoardList();
+	public List<BoardVO> getBoardList(int category) {
+		List<BoardVO> boardList = userMapper.getBoardList(category);
 		
 		return boardList;
 	}
@@ -51,13 +51,14 @@ public class BoardService {
 		userMapper.boardAlter(boardVO);
 	}
 	
-	public List<BoardVO> findAll(SearchVO searchVO) {
-		List<BoardVO> boardList = userMapper.findAll(searchVO );
+	public List<BoardVO> findAll(HashMap<String, Object> board) {
+		List<BoardVO> boardList = userMapper.findAll(board );
 		return boardList;
 		
 	}
 	
 	public List<BoardVO> searchBoard(HashMap<String,Object> board) {
+		System.out.println(board.get("search")+ " search");
 		List<BoardVO> boardList = userMapper.searchBoard(board);
 		return boardList;
 	}
