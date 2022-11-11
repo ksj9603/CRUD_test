@@ -41,6 +41,10 @@
 	 order by board_no
 </select>
 
+<select id="checkCntId"	resultType="int">
+	select login_cnt from account where id = #{id}
+</select>
+
 <select id="findAll" parameterType="HashMap" resultType="com.example.vo.BoardVO">
 	select * from board 
 	<if test="category != 0">
@@ -119,4 +123,8 @@
       </if>
       ${droper} like '%'||#{search}||'%' order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
 </select>
+
+<update id="cntChange">
+	update account set login_cnt = #{login_cnt} where id = #{id}
+</update>
 </mapper>

@@ -11,6 +11,7 @@ public class UserVO {
 	public String id;
 	public String pwd;
 	public String name;
+	public int login_cnt;
 	
 	public UserVO() {
 		
@@ -18,6 +19,10 @@ public class UserVO {
 	
 	public UserVO(String id) {
 		this.id = id;
+	}
+	
+	public UserVO(int login_cnt) {
+		this.login_cnt = login_cnt;
 	}
 	
 	public UserVO(String id, String pwd) {

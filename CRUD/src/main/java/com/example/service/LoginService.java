@@ -19,4 +19,14 @@ public class LoginService {
 		
 		return check;
 	}
+	
+	public void cntChange(UserVO userVO) {
+		userMapper.cntChange(userVO);
+	}
+	
+	public int checkCntId(UserVO userVO) {
+		int check = userMapper.checkCntId(userVO);
+		
+		return check;
+	}
 }

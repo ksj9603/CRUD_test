@@ -46,4 +46,8 @@ public interface UserMapper {
 	public List<BoardVO> searchBoard(HashMap<String, Object> board);
 	
 	public List<BoardVO> searchAllBoard(HashMap<String, Object> board);
+	
+	public void cntChange(UserVO userVO);
+	
+	public int checkCntId(UserVO userVO);
 }
