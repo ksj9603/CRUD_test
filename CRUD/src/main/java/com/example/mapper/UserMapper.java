@@ -52,4 +52,10 @@ public interface UserMapper {
 	public int checkCntId(UserVO userVO);
 	
 	void lastLogin(UserVO userVO);
+	
+	public boolean lastLoginCheck(UserVO userVO);
+	
+	public boolean accountLock(UserVO userVO);
+	
+	void changeLock(UserVO userVO);
 }

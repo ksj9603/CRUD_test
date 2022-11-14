@@ -57,33 +57,59 @@ public class LoginController {
 	@PostMapping(value="/accountCheck")
 	@ResponseBody
 	public int gogo(UserVO userVO, HttpServletRequest request) throws InterruptedException {
-		System.out.println(userVO.getId());
-		boolean check = loginService.checkLogin(userVO);
-		loginService.lastLogin(userVO);
-		if(check == false) {
-			cnt += 1;
-			userVO.setLogin_cnt(cnt);
-			loginService.cntChange(userVO);
+		boolean lock = loginService.accountLock(userVO);
+		
+		if(lock == false) {
+			boolean check = loginService.checkLogin(userVO);
+			if(check == false) {
+				cnt += 1;
+				userVO.setLogin_cnt(cnt);
+				loginService.cntChange(userVO);
 			
-			int id_cnt = loginService.checkCntId(userVO);
-			if (id_cnt >= 3) {
+				int id_cnt = loginService.checkCntId(userVO);
 				
-				return 1;
-				
-				
+				if (id_cnt < 3) { 
+					loginService.lastLogin(userVO);
+					return 0;
+				}else {
+					loginService.lastLogin(userVO);
+					loginService.changeLock(userVO);
+					return 1;						
+					}
+				}else {
+					loginService.lastLogin(userVO);
+					cnt = 0;
+					userVO.setLogin_cnt(cnt);
+					loginService.cntChange(userVO);
+					HttpSession session = request.getSession();
+					session.setAttribute("loginSession", userVO.getId());
+					return 2;
+				}
+			} 
+		
+		
+			else {
+				boolean lastLoginCheck = loginService.lastLoginCheck(userVO);
+				if(lastLoginCheck == false) {
+					return 1;
+				} else {
+					boolean lockAfterCheck = loginService.checkLogin(userVO);
+					if(lockAfterCheck == false) {
+						loginService.lastLogin(userVO);
+						return 1;
+					}
+					loginService.lastLogin(userVO);
+					cnt = 0;
+					userVO.setLogin_cnt(cnt);
+					loginService.cntChange(userVO);
+					HttpSession session = request.getSession();
+					session.setAttribute("loginSession", userVO.getId());
+						loginService.changeLock(userVO);
+						return 2;
 			}
-			
-			return 0;
-		} 
-		
-		cnt = 0;
-		userVO.setLogin_cnt(cnt);
-		loginService.cntChange(userVO);
-		HttpSession session = request.getSession();
-		session.setAttribute("loginSession", userVO.getId());
-		
-		return 2;
+		}
 	}	
+	
 	
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {

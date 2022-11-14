@@ -33,4 +33,20 @@ public class LoginService {
 	public void lastLogin(UserVO userVO) {
 		userMapper.lastLogin(userVO);
 	}
+	
+	public boolean lastLoginCheck(UserVO userVO) {
+		boolean check = userMapper.lastLoginCheck(userVO);
+		
+		return check;
+	}
+	
+	public boolean accountLock(UserVO userVO) {
+		boolean check = userMapper.accountLock(userVO);
+		
+		return check;
+	}
+	
+	public void changeLock(UserVO userVO) {
+		userMapper.changeLock(userVO);
+	}
 }

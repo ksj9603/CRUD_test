@@ -18,8 +18,6 @@ const gogo = () => {
 					location.href="/board/boardList";
 				} else if (data === 1) {
 					alert("20초간 로그인 시도 불가능");
-					$("#accountCheck").prop('disabled', true);
-					setTimeout(() => $("#accountCheck").prop('disabled', false), 20000);
 					
 				}
 		  }
