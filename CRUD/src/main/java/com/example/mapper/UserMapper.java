@@ -50,4 +50,6 @@ public interface UserMapper {
 	public void cntChange(UserVO userVO);
 	
 	public int checkCntId(UserVO userVO);
+	
+	void lastLogin(UserVO userVO);
 }

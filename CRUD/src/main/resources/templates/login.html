@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> 회원가입 </title>
+<title> 로그인 </title>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -9,8 +9,10 @@
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-<h1><p class="text-center">회원가입</p></h1>
+<h1><p class="text-center">로그인</p></h1>
 <div class="container">
+<p id="errorMessage"></p>
+
   <div class="form-group">
     <label for="email">ID:</label>
     <input type="text" class="form-control" placeholder="ID" id="id">
@@ -19,13 +21,12 @@
     <label for="pwd">Password:</label>
     <input type="password" class="form-control" placeholder="password" id="pwd">
   </div>
-  <div class="form-group">
-    <label for="pwd">Name:</label>
-    <input type="text" class="form-control" placeholder="Name" id="name">
-  </div>
-  <button type="button" class="btn btn-primary" onclick="addUser()">회원가입</button>
+
+  <button id="accountCheck" type="button" class="btn btn-primary" onclick="gogo()">로그인</button>
+  <input type="button" class="btn btn-primary" value="회원가입" onclick="addUser()">
+
 </div>
 
-<script type="text/javascript" src="/js/crud/account.js"></script>
+  <script type="text/javascript" src="/js/crud/login.js"></script>
 </body>
 </html>

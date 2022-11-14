@@ -51,14 +51,15 @@ public class LoginController {
 			model.addAttribute("id",session.getAttribute("loginSession"));
 			return "/main";
 		}
-		return "/Login";
+		return "/login";
 	}
 	
 	@PostMapping(value="/accountCheck")
 	@ResponseBody
-	public int gogo(@RequestBody UserVO userVO, HttpServletRequest request) throws InterruptedException {
+	public int gogo(UserVO userVO, HttpServletRequest request) throws InterruptedException {
 		System.out.println(userVO.getId());
 		boolean check = loginService.checkLogin(userVO);
+		loginService.lastLogin(userVO);
 		if(check == false) {
 			cnt += 1;
 			userVO.setLogin_cnt(cnt);
@@ -90,7 +91,7 @@ public class LoginController {
 		String id = (String)session.getAttribute("loginSession");
 		session.removeAttribute(id);
 		session.invalidate();
-		return "/Login";
+		return "/login";
 	}
 	
 }

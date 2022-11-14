@@ -4,228 +4,9 @@
   <title>게시판</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-  <script type="text/javascript">
-  let category = 0;
-  let number = 0;
-  
-  const fn_category = (i) => {
-	  number = 0;
-	  category = i;
-	  $("#search").val("");
-	  
-	  $.ajax({
-		  url:"/board/getBoardList",
-		  type:"post",
-		  data:{"category" : category},
-		  success:function(data) {
-			let str ='<tr>' ;
-			$.each(data, function(i) {
-				if(data[i].imagefile == null) {
-					str +="<td>" +((number*5)+(i+1)) +"</td><td>&nbsp;"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}else {
-				str +="<td>" + ((number*5)+(i+1)) +"</td><td>"+"<img src="+"/imagePath/"+data[i].imagefile+" width='30' height='30'/>"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}
-			});
-			$("#go").html(str);
-		  }
-	  });
-	  
-	 $.ajax({
-		  url:"/board/getAllBoardList",
-		  type:"post",
-		  data:{"category" : category},
-		  success:function(data1) {
-			  let num = data1.length / 5;
-			  let pag = "";
-			  for(let i = 0 ;i < num; i++ ) {
-				  
-				  pag += "<a href='javascript:chagePage("+(i+1)+");'>"+ (i+1) +"</a> &nbsp;&nbsp;&nbsp;&nbsp;";
-			  }
-			  $("#page").html(pag);
-		  }
-	  });
-  }
-  
-  const search = () => {
-	  number = 0;
-	  let dropdown = document.getElementById("drop");
-	  let droper = dropdown.options[dropdown.selectedIndex].value;
-	  let search = $("#search").val();
-	  
-	  console.log(search);
-	  console.log(droper);
-	  let data12 = {"search":search,"droper":droper,"category":category};
-	  $.ajax({
-		  url:"/board/searchBoard",
-		  type:"post",
-		  data:data12,
-		  success:function(data) {
-			  
-			let str ='<tr>' ;
-			if(data.length === 0) {
-				str+= "<td colspan='7' style='text-align:center'>검색 결과가 없습니다.</td></tr>"
-			}
-			$.each(data, function(i) {
-				console.log(data.length);
-				
-				if(data[i].imagefile === null) {
-					str +="<td>" +((number*5)+(i+1)) +"</td><td>&nbsp;"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}else {
-				str +="<td>" + ((number*5)+(i+1)) +"</td><td>"+"<img src="+"/imagePath/"+data[i].imagefile+" width='30' height='30'/>"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-					}
-				
-			});
-			$("#go").html(str);
-			  
-		  }
-	  });
-	  	$.ajax({
-		  url:"/board/searchAllBoard",
-		  data:data12,
-		  type:"post",
-		  success:function(data1) {
-			  let num = data1.length / 5;
-			  let pag = "";
-			  for(let i = 0 ;i < num; i++ ) {
-				  pag += "<a href='javascript:searchPage("+(i+1)+");'>"+ (i+1) +"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-			  }
-			  $("#page").html(pag);
-		  }
-	  });
-  }
-    const searchPage = (j)=> {
-		 number = 0;
-	let dropdown = document.getElementById("drop");
-	let droper = dropdown.options[dropdown.selectedIndex].value;
-	let search = $("#search").val();
-	  number = j-1;
-	  let page = j;
-	  let data12 = {"page":page,"search":search,"droper":droper,"category":category};
-	  $.ajax({
-		  url:"/board/searchBoardpage",
-		  type:"post",
-		  data:data12,
-		  success:function(data) {
-			let str ='<tr>' ;
-			$.each(data, function(i) {
-				if(data[i].imagefile == null) {
-					str +="<td>" + ((number*5)+(i+1)) +"</td><td>&nbsp;"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}else {
-				str +="<td>" + ((number*5)+(i+1)) +"</td><td>"+"<img src="+"/imagePath/"+data[i].imagefile+" width='30' height='30'/>"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}
-				
-			});
-			$("#go").html(str);
-		  }
-	  });
-	  
-  }
-  const chagePage = (j)=> {
-	  number = j-1;
-	  let page = j;
-	  let data1 = {"page":page,"category":category};
-	  $.ajax({
-		  url:"/board/changePage",
-		  type:"post",
-		  data:data1,
-		  success:function(data) {
-			let str ='<tr>' ;
-			$.each(data, function(i) {
-				if(data[i].imagefile == null) {
-					str +="<td>" + ((number*5)+(i+1)) +"</td><td>&nbsp;"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}else {
-				str +="<td>" + ((number*5)+(i+1)) +"</td><td>"+"<img src="+"/imagePath/"+data[i].imagefile+" width='30' height='30'/>"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}
-				
-			});
-			$("#go").html(str);
-		  }
-	  });
-	  
-  }
-  $(document).ready(function() {
-	  $.ajax({
-		  url:"/board/getBoardList",
-		  type:"post",
-		  data:{"category":category},
-		  success:function(data) {
-			let str ='<tr>' ;
-			$.each(data, function(i) {
-				if(data[i].imagefile == null) {
-					str +="<td>" +((number*5)+(i+1)) +"</td><td>&nbsp;"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}else {
-				str +="<td>" + ((number*5)+(i+1)) +"</td><td>"+"<img src="+"/imagePath/"+data[i].imagefile+" width='30' height='30'/>"
-				+"</td><td>"+data[i].title+"</td><td>"+data[i].text+"</td><td>"+data[i].account_id+ "</td>" +
-				"<td><input type='button' class='btn btn-primary' value='삭제' onclick="+"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"+"></input></td>"
-				+ "<td><input type='button' class='btn btn-primary' value='수정' onclick"+"=location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"+"></input></td>";
-				str += '</tr>';
-				}
-			});
-			$("#go").html(str);
-		  }
-	  });
-	  
-	 $.ajax({
-		  url:"/board/getAllBoardList",
-		  type:"post",
-		  data:{"category":category},
-		  success:function(data1) {
-			  let num = data1.length / 5;
-			  let pag = "";
-			  for(let i = 0 ;i < num; i++ ) {
-				  
-				  pag += "<a href='javascript:chagePage("+(i+1)+");'>"+ (i+1) +"</a> &nbsp;&nbsp;&nbsp;&nbsp;";
-			  }
-			  $("#page").html(pag);
-		  }
-	  });
-  });
-  
-  
-  
-  </script>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 
@@ -234,10 +15,10 @@
 		<div class="col-sm-12">
 			<hr>
 		</div>
-		<div class="col-sm-6  text-right">
+		<div class="col-sm-6  text-end">
 			<h2>게시판</h2>
 		</div>
-		<div class="col-sm-6 text-right">
+		<div class="col-sm-6 text-end">
 			 <input class="btn btn-primary" type="button" value="로그아웃" th:onclick="|location.href='@{/logout'}|"/>
 		</div>
 		<div class="col-sm-12">  
@@ -294,6 +75,7 @@
 		</table>
 	</div>
 </div>
+
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12 text-center">
@@ -302,5 +84,7 @@
 	</div>
 </div>
 
+
+<script type="text/javascript" src="/js/crud/main.js"></script>
 </body>
 </html>

@@ -35,16 +35,11 @@ public class BoardController {
 	
 	private final String dir = "C:\\Dev\\image\\";
 	
-	@GetMapping("/main2")
-	public String main2() {
-		return "main2";
-	}
-	
 	@GetMapping("/board/boardPage")
 	public String boardPage(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("loginSession") == null) {
-			return "Login";
+			return "login";
 		}
 		model.addAttribute("id",session.getAttribute("loginSession"));
 		return "board";

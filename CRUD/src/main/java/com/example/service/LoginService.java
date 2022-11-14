@@ -29,4 +29,8 @@ public class LoginService {
 		
 		return check;
 	}
+	
+	public void lastLogin(UserVO userVO) {
+		userMapper.lastLogin(userVO);
+	}
 }

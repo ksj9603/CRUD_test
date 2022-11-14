@@ -9,6 +9,9 @@
 <select id="checkId" resultType="boolean">
 	select exists (select id from account where id = #{id} and pwd = #{pwd})
 </select>
+<update id="lastLogin" parameterType="com.example.vo.UserVO">
+	update account set last_login = now() where id= #{id}
+</update>
 
 <select id="checkBoard" resultType="boolean" parameterType="map">
 	select exists (select board_no, account_id from board where board_no=#{board_no} and account_id=#{account_id})
