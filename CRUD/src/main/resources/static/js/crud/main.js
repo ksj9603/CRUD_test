@@ -40,6 +40,7 @@ const html_write = (number, data,i) => {
 		$("#go").append(tr);
 		}
 }
+
 const fn_category = (i) => {
 	number = 0;
 	category = i;
@@ -55,60 +56,59 @@ const fn_category = (i) => {
 			$.each(data, function(i) {
 				html_write(number, data,i);
 			});
-			}
-	  	});
-	  
-	 $.ajax({
-		  url:"/board/getAllBoardList",
-		  type:"post",
-		  async:false,
-		  data:{"category" : category},
-		  success:function(data1) {
-			  let num = data1.length / 5;
-			  let pag = "";
-			  for(let i = 0 ;i < num; i++ ) {
+		}
+	});  
+	$.ajax({
+		url:"/board/getAllBoardList",
+		type:"post",
+		async:false,
+		data:{"category" : category},
+		success:function(data1) {
+			let num = data1.length / 5;
+			let pag = "";
+			for(let i = 0 ;i < num; i++ ) {
 				  
-				  pag += "<a href='javascript:chagePage("+(i+1)+");'>"+ (i+1) +"</a> &nbsp;&nbsp;&nbsp;&nbsp;";
-			  }
-			  $("#page").html(pag);
-		  }
-	  });
-  }
+				pag += "<a href='javascript:chagePage("+(i+1)+");'>"+ (i+1) +"</a> &nbsp;&nbsp;&nbsp;&nbsp;";
+			}
+			$("#page").html(pag);
+		}
+	});
+}
   
-  const search = () => {
-	  number = 0;
-	  let dropdown = document.getElementById("drop");
-	  let droper = dropdown.options[dropdown.selectedIndex].value;
-	  let search = $("#search").val();
+const search = () => {
+	number = 0;
+	let dropdown = document.getElementById("drop");
+	let droper = dropdown.options[dropdown.selectedIndex].value;
+	let search = $("#search").val();
 	  
-	  console.log(search);
-	  console.log(droper);
-	  let data12 = {"search":search,"droper":droper,"category":category};
-	  $.ajax({
-		  url:"/board/searchBoard",
-		  type:"post",
-		  data:data12,
-		  success:function(data) {
+	console.log(search);
+	console.log(droper);
+	let data12 = {"search":search,"droper":droper,"category":category};
+	$.ajax({
+		url:"/board/searchBoard",
+		type:"post",
+		data:data12,
+		success:function(data) {
 			$("#go").html("");		
 			$.each(data, function(i) {
 				html_write(number, data,i);
 			});
-		  }
-	  });
-	  	$.ajax({
-		  url:"/board/searchAllBoard",
-		  data:data12,
-		  type:"post",
-		  success:function(data1) {
-			  let num = data1.length / 5;
-			  let pag = "";
-			  for(let i = 0 ;i < num; i++ ) {
-				  pag += "<a href='javascript:searchPage("+(i+1)+");'>"+ (i+1) +"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-			  }
-			  $("#page").html(pag);
-		  }
-	  });
-  }
+		}
+	});
+	$.ajax({
+		url:"/board/searchAllBoard",
+		data:data12,
+		type:"post",
+		success:function(data1) {
+			let num = data1.length / 5;
+			let pag = "";
+			for(let i = 0 ;i < num; i++ ) {
+				pag += "<a href='javascript:searchPage("+(i+1)+");'>"+ (i+1) +"</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+			}
+			$("#page").html(pag);
+		}
+	});
+}
   
 const searchPage = (j)=> {
 	number = 0;
@@ -126,26 +126,27 @@ const searchPage = (j)=> {
 			$("#go").html("");		
 			$.each(data, function(i) {
 				html_write(number, data,i);
-				});
-			}
-		});  
-	}
-  const chagePage = (j)=> {
-	  number = j-1;
-	  let page = j;
-	  let data1 = {"page":page,"category":category};
-	  $.ajax({
-		  url:"/board/changePage",
-		  type:"post",
-		  data:data1,
-		  success:function(data) {
+			});
+		}
+	});  
+}
+
+const chagePage = (j)=> {
+	number = j-1;
+	let page = j;
+	let data1 = {"page":page,"category":category};
+	$.ajax({
+		url:"/board/changePage",
+		type:"post",
+		data:data1,
+		success:function(data) {
 			$("#go").html("");		
 			$.each(data, function(i) {
 				html_write(number, data,i);
-				});
-			}
-		});
-	}
+			});
+		}
+	});
+}
 	
 $(document).ready(function() {
 	$.ajax({
@@ -157,24 +158,22 @@ $(document).ready(function() {
 			$.each(data, function(i) {
 				html_write(number, data,i);
 			});
-		  }
-	  });
-	  
-	 $.ajax({
-		  url:"/board/getAllBoardList",
-		  type:"post",
-		  data:{"category":category},
-		  success:function(data1) {
-			  let num = data1.length / 5;
-			  let pag = "";
-			  for(let i = 0 ;i < num; i++ ) {
-				  
+		}
+	}); 
+	$.ajax({
+		url:"/board/getAllBoardList",
+		type:"post",
+		data:{"category":category},
+		success:function(data1) {
+			let num = data1.length / 5;
+			let pag = "";
+			for(let i = 0 ;i < num; i++ ) {
 				  pag += "<a href='javascript:chagePage("+(i+1)+");'>"+ (i+1) +"</a> &nbsp;&nbsp;&nbsp;&nbsp;";
-			  }
-			  $("#page").html(pag);
-		  }
-	  });
-  });
+			}
+			$("#page").html(pag);
+		}
+	});
+});
   
   
   

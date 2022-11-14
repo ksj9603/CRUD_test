@@ -59,6 +59,12 @@ public class LoginController {
 	public int gogo(UserVO userVO, HttpServletRequest request) throws InterruptedException {
 		// 0: 정보 틀림, 1: 1분Lock, 2: 로그인OK
 		
+		String checkNull = loginService.checkNullId(userVO);
+		System.out.println(checkNull);
+		if(checkNull == null) {
+			return 0;
+		}
+		
 		boolean lock = loginService.accountLock(userVO);
 		// 계정에 Lock 여부 확인
 		if(lock == false) {

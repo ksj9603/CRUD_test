@@ -58,4 +58,6 @@ public interface UserMapper {
 	public boolean accountLock(UserVO userVO);
 	
 	void changeLock(UserVO userVO);
+	
+	public String checkNullId(UserVO userVO);
 }

@@ -11,22 +11,23 @@
 <body>
 <h1><p class="text-center">로그인</p></h1>
 <div class="container">
-<p id="errorMessage"></p>
+	<p id="errorMessage"></p>
 
-  <div class="form-group">
-    <label for="email">ID:</label>
-    <input type="text" class="form-control" placeholder="ID" id="id">
-  </div>
-  <div class="form-group">
-    <label for="pwd">Password:</label>
-    <input type="password" class="form-control" placeholder="password" id="pwd">
-  </div>
-
-  <button id="accountCheck" type="button" class="btn btn-primary" onclick="gogo()">로그인</button>
-  <input type="button" class="btn btn-primary" value="회원가입" onclick="addUser()">
-
+	<div class="form-group">
+    	<label for="email">ID:</label>
+    	<input type="text" class="form-control" placeholder="ID" id="id">
+  	</div>
+  	<div class="form-group">
+    	<label for="pwd">Password:</label>
+    	<input type="password" class="form-control" placeholder="password" id="pwd">
+  	</div>
 </div>
 
-  <script type="text/javascript" src="/js/crud/login.js"></script>
+<div class="container">
+  <button id="accountCheck" type="button" class="btn btn-primary" onclick="gogo()">로그인</button>
+  <input type="button" class="btn btn-primary" value="회원가입" onclick="addUser()">
+</div>
+
+<script type="text/javascript" src="/js/crud/login.js"></script>
 </body>
 </html>

@@ -49,4 +49,9 @@ public class LoginService {
 	public void changeLock(UserVO userVO) {
 		userMapper.changeLock(userVO);
 	}
+	
+	public String checkNullId(UserVO userVO) {
+		String a = userMapper.checkNullId(userVO);
+		return a;
+	}
 }

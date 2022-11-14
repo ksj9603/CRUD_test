@@ -9,10 +9,14 @@
 <select id="checkId" resultType="boolean">
 	select exists (select id from account where id = #{id} and pwd = #{pwd})
 </select>
+<select id="checkNullId" parameterType="com.example.vo.UserVO" resultType="String">
+	select id from account where id = #{id}
+</select>
 <update id="lastLogin" parameterType="com.example.vo.UserVO">
 	update account set last_login = now() where id= #{id}
 </update>
 <select id="lastLoginCheck" parameterType="com.example.vo.UserVO" resultType="boolean">
+							<!-- &lt; < -->
 	select last_login::timestamp  &lt; ( now()::timestamp - '20seconds'::interval) from account where id=#{id} 
 </select>
 
