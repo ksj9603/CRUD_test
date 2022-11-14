@@ -17,7 +17,7 @@ const gogo = () => {
 				} else if(data === 2) {
 					location.href="/board/boardList";
 				} else if (data === 1) {
-					alert("20초간 로그인 시도 불가능");
+					alert("20초동안 로그인 시도 불가능");
 					
 				}
 		  }

@@ -57,14 +57,16 @@ public class LoginController {
 	@PostMapping(value="/accountCheck")
 	@ResponseBody
 	public int gogo(UserVO userVO, HttpServletRequest request) throws InterruptedException {
-		boolean lock = loginService.accountLock(userVO);
+		// 0: 정보 틀림, 1: 1분Lock, 2: 로그인OK
 		
+		boolean lock = loginService.accountLock(userVO);
+		// 계정에 Lock 여부 확인
 		if(lock == false) {
-			boolean check = loginService.checkLogin(userVO);
+			boolean check = loginService.checkLogin(userVO); // 로그인 정보 일치 확인
 			if(check == false) {
 				cnt += 1;
 				userVO.setLogin_cnt(cnt);
-				loginService.cntChange(userVO);
+				loginService.cntChange(userVO); // 로그인시도 횟수 증가 
 			
 				int id_cnt = loginService.checkCntId(userVO);
 				
@@ -86,8 +88,6 @@ public class LoginController {
 					return 2;
 				}
 			} 
-		
-		
 			else {
 				boolean lastLoginCheck = loginService.lastLoginCheck(userVO);
 				if(lastLoginCheck == false) {
