@@ -10,21 +10,46 @@
 	select exists (select id from account where id = #{id} and pwd = #{pwd})
 </select>
 <select id="checkNullId" parameterType="com.example.vo.UserVO" resultType="String">
-	select id from account where id = #{id}
+	select 
+		id 
+	from 
+		account 
+	where 
+		id = #{id}
 </select>
 <update id="lastLogin" parameterType="com.example.vo.UserVO">
-	update account set last_login = now() where id= #{id}
+	update 
+		account 
+	set 
+		last_login = now() 
+	where 
+		id= #{id}
 </update>
 <select id="lastLoginCheck" parameterType="com.example.vo.UserVO" resultType="boolean">
 							<!-- &lt; < -->
-	select last_login::timestamp  &lt; ( now()::timestamp - '20seconds'::interval) from account where id=#{id} 
+	select 
+		last_login::timestamp  &lt; ( now()::timestamp - '20seconds'::interval) 
+	from 
+		account 
+	where 
+		id=#{id} 
 </select>
 
 <select id="accountLock" parameterType="com.example.vo.UserVO" resultType="boolean">
-	select lock from account where id = #{id}
+	select 
+		lock -- 실패 횟수
+	from 
+		account 
+	where 
+		id = #{id}
 </select>
 <update id="changeLock" parameterType="com.example.vo.UserVO">
-	update account set lock = not lock where id = #{id}
+	update 
+		account
+	set 
+		lock = not lock 
+	where 
+		id = #{id}
 </update>
 
 <select id="checkBoard" resultType="boolean" parameterType="map">
@@ -32,7 +57,10 @@
 </select>
 
 <insert id="save" parameterType="com.example.vo.UserVO">
-	insert into account values(#{id}, #{pwd}, #{name})
+	insert into 
+		account 
+	values
+		(#{id}, #{pwd}, #{name})
 </insert>
 
 <insert id="boardUpload" parameterType="com.example.vo.BoardVO">
@@ -46,7 +74,12 @@
 </insert>
 
 <select id="getList" resultType="com.example.vo.UserVO">
-	select * from account order by id
+	select 
+		* 
+	from 
+		account 
+	order by 
+		id
 </select>
 
 <select id="getBoardList" resultType="com.example.vo.BoardVO">
@@ -59,7 +92,11 @@
 </select>
 
 <select id="checkCntId"	resultType="int">
-	select login_cnt from account where id = #{id}
+	select 
+		login_cnt 
+	from 
+		account 
+	where id = #{id}
 </select>
 
 <select id="findAll" parameterType="HashMap" resultType="com.example.vo.BoardVO">
@@ -67,26 +104,52 @@
 	<if test="category != 0">
 		where category = #{category}
 	</if>
-	order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
+	order by 
+		board_no 
+	limit 
+		#{searchVO.recordSize} 
+	offset 
+		#{searchVO.offset}
 </select>
 
 <delete id="delUser">
-	delete from account where id = #{id}
+	delete from 
+		account 
+	where
+		id = #{id}
 </delete>
 
 <delete id="delBoard">
-	delete from board where board_no = #{board_no} and account_id = #{account_id}
+	delete from
+		 board 
+	where 
+		board_no = #{board_no} and account_id = #{account_id}
 </delete>
 
 <select id="alterUser" resultType="com.example.vo.UserVO">
-	select * from account where id = #{id}
+	select 
+		* 
+	from 
+		account 
+	where 
+		id = #{id}
 </select>
 
 <update id="changeUser">
-	update account set pwd=#{pwd}, name=#{name} where id = #{id}
+	update 
+		account 
+	set 
+		pwd=#{pwd}, name=#{name} 
+	where 
+		id = #{id}
 </update>
 <update id="boardAlter">
-	update board set title=#{title}, text=#{text}, imagefile=#{imagefile} where account_id=#{account_id} and board_no = #{board_no}
+	update 
+		board 
+	set 
+		title=#{title}, text=#{text}, imagefile=#{imagefile} 
+	where 
+		account_id=#{account_id} and board_no = #{board_no}
 </update>
 
 <select id="checkLogin" resultType="boolean">
@@ -94,12 +157,20 @@
 </select>
 
 <select id="alterBoard" resultType="com.example.vo.BoardVO">
-	select * from board where board_no = #{board_no}
+	select 
+		* 
+	from 
+		board 
+	where 
+		board_no = #{board_no}
 </select>
 
 <select id="searchBoard" parameterType="HashMap" resultType="com.example.vo.BoardVO">
-	 select * from board where
-	 
+	 select 
+	 	* 
+	 from 
+	 	board 
+	 where
 	 	<if test="category != 0 ">
 	 		category=#{category} and 
 	 	</if>
@@ -113,7 +184,12 @@
           account_id like '%'||#{search}||'%' 
         </if>
     	
-    	order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset} 
+    order by 
+    	board_no 
+    limit 
+    	#{searchVO.recordSize} 
+    offset 
+    	#{searchVO.offset} 
     
   <!-- select * from board where ${droper} like concat('%',#{search},'%') order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset} !-->
 </select>
@@ -134,14 +210,58 @@
         </if>
     order by board_no !-->
     
-      select * from board where 
-      <if test="category != 0">
+	select 
+		* 
+	from 
+		board 
+	where 
+		<if test="category != 0">
       		category = #{category} and 
-      </if>
-      ${droper} like '%'||#{search}||'%' order by board_no limit #{searchVO.recordSize} offset #{searchVO.offset}
+        </if>
+		${droper} like '%'||#{search}||'%' 
+	order by 
+		board_no 
+	limit 
+		#{searchVO.recordSize} 
+	offset 
+		#{searchVO.offset}
 </select>
 
 <update id="cntChange">
-	update account set login_cnt = #{login_cnt} where id = #{id}
+	update 
+		account 
+	set 
+		login_cnt = #{login_cnt} 
+	where 
+		id = #{id}
 </update>
+
+<select id="boardInfoData" resultType="com.example.vo.BoardVO">
+	select 
+		*
+	from
+		board
+	where
+		board_no=#{board_no1}
+
+</select>
+
+<update id="boardLikeHate" parameterType="HashMap">
+	update
+		board
+	<if test="bt == 1">
+	set
+		likeboard = likeboard +1
+	</if>
+	<if test="bt == 2">
+	set
+		hateboard = hateboard +1
+	</if>
+	where
+		board_no = #{board_no1}
+		
+		
+</update>
+
+
 </mapper>

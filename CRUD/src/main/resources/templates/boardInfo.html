@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>게시판 상세보기</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="/js/bootstrap.js"></script>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+	h6{
+		display: inline;
+		margin:1%;
+	}
+</style>
+</head>
+<body>
+
+<div class="container">
+	<table class="table table-bordered">
+		<thead class="text-center table-dark">
+			<tr>
+				<th colspan="2"> 게시판 상세보기 </th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="text-center" colspan="2" id="tdImg"></td>
+			</tr>
+			<tr>
+				<td width="20%">제목</td>
+				<td width="80%" id="td1"></td>
+			</tr>
+			<tr>
+				<td width="20%">내용</td>
+				<td width="80%" id="td2"></td>
+			</tr>
+			<tr>
+				<td width="20%">작성자</td>
+				<td width="80%" id="td3"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="text-center">
+			<h6 id="likeboard"></h6> <h6 id="hateboard"></h6>
+		</div>
+		<div class="text-center">
+			<input type="button" value="좋아연" onclick="likehate(1)" ></input>
+			<input type="button" value="싫어연" onclick="likehate(2)"></input>
+		</div>
+	</div>
+</div>
+<br>
+<div class="container">
+<h4> 댓글 </h4>
+	<table class="table table-dark table-hover">
+		<tbody>
+			<tr>
+				<td style="width: 20%;">kimseongjin</td>
+				<td> hoho </td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="input-group mb-3">
+		<span class="input-group-text">댓글</span>
+		<textarea class="form-control" rows="2" id="comment_board"></textarea>
+	</div>
+	<div class="text-end">
+		<input type="button" value="댓글 달기"></input>
+	</div>
+</div>
+<!-- 컨트롤러에서 model로 보낸 값을 태그에 th명령어 안쓰고 js에서 받는 방법 !-->
+<script type="text/javascript" th:inline="javascript">
+	var board_no1 = /*[[${board_no}]]*/ null;
+</script>
+<script type="text/javascript" th:src="@{/js/crud/boardInfo.js}"></script>
+</body>
+</html>

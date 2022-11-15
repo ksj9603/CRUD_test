@@ -68,4 +68,14 @@ public class BoardService {
 		return boardList;
 	}
 	
+	public List<BoardVO> boardInfoData(int board_no1) {
+		List<BoardVO> board = userMapper.boardInfoData(board_no1);
+		
+		return board;
+	}
+	
+	public void boardLikeHate(HashMap<String,Object> hash) {
+		userMapper.boardLikeHate(hash) ;
+		
+	}
 }

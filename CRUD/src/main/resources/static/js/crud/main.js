@@ -1,16 +1,24 @@
+
+
 let category = 0;
 let number = 0;
 /*
  ** 동일한 html 구조**
  				*/
+ 				
+/**
+	안녕
+	* @param {int} number - start number 
+ */
 const html_write = (number, data,i) => {
 	let tr = $("<tr>",{});
 			
 	if(data[i].imagefile == null) {
-		let td1 = $("<td>",{text:number*5 +(i+1)});
+		let td1 = $("<td>",{text:number*5 +(i+1), width:"13%"});
 		let td2 = $("<td>",{});
-		let td3 = $("<td>",{text:data[i].title});
-		let td4 = $("<td>",{text:data[i].text});
+		let td3 = $("<td>",{});
+		var a1 = $("<a>").text(data[i].title).attr("href","javascript:boardInfo(" + data[i].board_no + ");");
+		td3.append(a1);
 		let td5 = $("<td>",{text:data[i].account_id});
 		let td6 = $("<td>",{});
 		let bt1 = $("<input>",{type:'button', class:'btn btn-primary', value:'삭제', onclick:"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"})
@@ -19,15 +27,16 @@ const html_write = (number, data,i) => {
 		let bt2 = $("<input>",{type:'button', class:'btn btn-primary', value:'수정', onclick:"location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"})
 		td7.append(bt2);
 					
-		tr.append(td1,td2,td3,td4,td5,td6,td7);
+		tr.append(td1,td2,td3,td5,td6,td7);
 		$("#go").append(tr);
 	} else {
-		let td1 = $("<td>",{text:number*5 +(i+1)});
+		let td1 = $("<td>",{text:number*5 +(i+1),width:"13%"});
 		let td2 = $("<td>",{});
 		let img1 = $("<img>",{src:"/imagePath/"+data[i].imagefile, width:'30', height:'30'})
 		td2.append(img1);
-		let td3 = $("<td>",{text:data[i].title});
-		let td4 = $("<td>",{text:data[i].text});
+		let td3 = $("<td>",{});
+		var a1 = $("<a>").text(data[i].title).attr("href","javascript:boardInfo(" + data[i].board_no + ");");
+		td3.append(a1);
 		let td5 = $("<td>",{text:data[i].account_id});
 		let td6 = $("<td>",{});
 		let bt1 = $("<input>",{type:'button', class:'btn btn-primary', value:'삭제', onclick:"location.href='/board/deleteBoard/?board_no="+data[i].board_no+"'"})
@@ -36,10 +45,15 @@ const html_write = (number, data,i) => {
 		let bt2 = $("<input>",{type:'button', class:'btn btn-primary', value:'수정', onclick:"location.href='/board/alterBoard/?board_no="+data[i].board_no+"'"})
 		td7.append(bt2);
 					
-		tr.append(td1,td2,td3,td4,td5,td6,td7);
+		tr.append(td1,td2,td3,td5,td6,td7);
 		$("#go").append(tr);
 		}
 }
+
+function boardInfo(i) {
+	location.href="/board/boardInfo/?board_no=" + i; 
+}
+
 
 const fn_category = (i) => {
 	number = 0;
@@ -49,7 +63,6 @@ const fn_category = (i) => {
 	$.ajax({
 		url:"/board/getBoardList",
 		type:"post",
-		async:false,
 		data:{"category" : category},
 		success:function(data) {
 			$("#go").html("");		
@@ -61,7 +74,6 @@ const fn_category = (i) => {
 	$.ajax({
 		url:"/board/getAllBoardList",
 		type:"post",
-		async:false,
 		data:{"category" : category},
 		success:function(data1) {
 			let num = data1.length / 5;

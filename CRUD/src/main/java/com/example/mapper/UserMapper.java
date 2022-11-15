@@ -60,4 +60,8 @@ public interface UserMapper {
 	void changeLock(UserVO userVO);
 	
 	public String checkNullId(UserVO userVO);
+	
+	public List<BoardVO> boardInfoData(int board_no1);
+	
+	public void boardLikeHate(HashMap<String, Object> hash);
 }

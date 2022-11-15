@@ -16,6 +16,8 @@ public class BoardVO {
 	private String text;
 	private String account_id;
 	private String imagefile;
+	private int likeboard;
+	private int hateboard;
 	
 	
 	public BoardVO(String title, String text, String account_id, String imagefile) {
@@ -23,6 +25,15 @@ public class BoardVO {
 		this.text = text;
 		this.account_id = account_id;
 		this.imagefile = imagefile;
+	}
+	
+	public BoardVO(String title, String text, String account_id, String imagefile, int likeboard, int hateboard) {
+		this.title= title;
+		this.text = text;
+		this.account_id = account_id;
+		this.imagefile = imagefile;
+		this.likeboard = likeboard;
+		this.hateboard = hateboard;
 	}
 	
 	public BoardVO(int board_no, String account_id) {

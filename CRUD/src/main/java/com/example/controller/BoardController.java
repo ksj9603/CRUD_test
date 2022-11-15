@@ -13,16 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.service.BoardService;
 import com.example.vo.BoardVO;
-import com.example.vo.FileVO;
 import com.example.vo.SearchVO;
-import com.example.vo.UserVO;
 
 import lombok.NoArgsConstructor;
 
@@ -212,5 +209,34 @@ public class BoardController {
 		board.put("category", category);
 		List<BoardVO> boardList = boardService.searchAllBoard(board);
 		return boardList;
+	}
+	
+	@GetMapping("/board/boardInfo")
+	public String boardInfo(@RequestParam int board_no, Model model) {
+		model.addAttribute("board_no",board_no);
+		System.out.println("board_no :: "+board_no);
+		return "/boardInfo";
+	}
+	
+	@PostMapping("/board/boardInfoData")
+	@ResponseBody
+	public List<BoardVO> boardInfoData(@RequestParam("board_no1") int board_no1) {
+		System.out.println(board_no1);
+		List<BoardVO> board = boardService.boardInfoData(board_no1);
+		System.out.println(board.get(0).getTitle());
+		return board;
+	}
+	
+	@PostMapping("/board/boardLikeHate")
+	@ResponseBody
+	public List<BoardVO> boardLikeHate(@RequestParam("bt") int bt, @RequestParam("board_no1") int board_no1) {
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("bt", bt);
+		hash.put("board_no1", board_no1);
+		boardService.boardLikeHate(hash);
+		
+		List<BoardVO> board = boardService.boardInfoData(board_no1);
+		
+		return board;
 	}
 }
