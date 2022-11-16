@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.vo.BoardVO;
+import com.example.vo.CommentVO;
 import com.example.vo.SearchVO;
 import com.example.vo.UserVO;
 
@@ -64,4 +65,16 @@ public interface UserMapper {
 	public List<BoardVO> boardInfoData(int board_no1);
 	
 	public void boardLikeHate(HashMap<String, Object> hash);
+	
+	public int thumbCheck(String account_id);
+	
+	public void thumbCnt(String account_id);
+	
+	public boolean thumbTime(String account_id);
+	
+	public void thumbTimeChange(String account_id);
+	
+	public void comment(HashMap<String, Object> comment);
+	
+	public List<CommentVO> comment_view(int board_no1);
 }

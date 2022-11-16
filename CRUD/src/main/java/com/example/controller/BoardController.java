@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.service.BoardService;
 import com.example.vo.BoardVO;
+import com.example.vo.CommentVO;
 import com.example.vo.SearchVO;
 
 import lombok.NoArgsConstructor;
@@ -212,31 +213,77 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/boardInfo")
-	public String boardInfo(@RequestParam int board_no, Model model) {
+	public String boardInfo(@RequestParam int board_no, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
 		model.addAttribute("board_no",board_no);
+		model.addAttribute("loginSession",session.getAttribute("loginSession"));
+		
 		System.out.println("board_no :: "+board_no);
 		return "/boardInfo";
 	}
 	
 	@PostMapping("/board/boardInfoData")
 	@ResponseBody
-	public List<BoardVO> boardInfoData(@RequestParam("board_no1") int board_no1) {
-		System.out.println(board_no1);
+	public HashMap<String, Object> boardInfoData(@RequestParam("board_no1") int board_no1) {
 		List<BoardVO> board = boardService.boardInfoData(board_no1);
-		System.out.println(board.get(0).getTitle());
-		return board;
+		List<CommentVO> comm = boardService.comment_view(board_no1);
+		
+		HashMap<String, Object> go = new HashMap<String, Object>();
+		go.put("board", board);
+		go.put("comm", comm);
+		return go;
 	}
 	
 	@PostMapping("/board/boardLikeHate")
 	@ResponseBody
-	public List<BoardVO> boardLikeHate(@RequestParam("bt") int bt, @RequestParam("board_no1") int board_no1) {
+	public List<BoardVO> boardLikeHate(@RequestParam("bt") int bt, @RequestParam("board_no1") int board_no1, @RequestParam("account_id") String account_id) {
+		
+		int count = boardService.thumbCheck(account_id);
+		
+		if(count >= 3 ) {
+			boolean thumbTime = boardService.thumbTime(account_id);
+			if(thumbTime == true) {
+				boardService.thumbTimeChange(account_id);
+				HashMap<String, Object> hash = new HashMap<String, Object>();
+				hash.put("bt", bt);
+				hash.put("board_no1", board_no1);
+				hash.put("account_id", account_id);
+				boardService.boardLikeHate(hash);
+				boardService.thumbCnt(account_id);
+				
+				List<BoardVO> board = boardService.boardInfoData(board_no1);
+				
+				return board;
+			}
+			return null;
+		}
 		HashMap<String, Object> hash = new HashMap<String, Object>();
 		hash.put("bt", bt);
 		hash.put("board_no1", board_no1);
+		hash.put("account_id", account_id);
 		boardService.boardLikeHate(hash);
+		boardService.thumbCnt(account_id);
 		
 		List<BoardVO> board = boardService.boardInfoData(board_no1);
 		
 		return board;
+	}
+	
+	@PostMapping("/board/comment")
+	@ResponseBody
+	public List<CommentVO> comment(@RequestParam("board_no1") int board_no1, @RequestParam("account_id") String account_id, @RequestParam("comment_val") String comment_val) {
+		
+		HashMap<String,Object> comment = new HashMap<String,Object>();
+		comment.put("board_no1", board_no1);
+		comment.put("comment_val", comment_val);
+		comment.put("account_id", account_id);
+		
+		boardService.comment(comment);
+		
+		List<CommentVO> comm = boardService.comment_view(board_no1);
+		
+		return comm;
+		
 	}
 }

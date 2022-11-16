@@ -1,7 +1,5 @@
 package com.example.service;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,11 +7,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.mapper.UserMapper;
 import com.example.vo.BoardVO;
-import com.example.vo.SearchVO;
+import com.example.vo.CommentVO;
 
 @Service
 @Transactional
@@ -77,5 +74,35 @@ public class BoardService {
 	public void boardLikeHate(HashMap<String,Object> hash) {
 		userMapper.boardLikeHate(hash) ;
 		
+	}
+	
+	public int thumbCheck(String account_id) {
+		int count = userMapper.thumbCheck(account_id);
+		
+		return count;
+	}
+	
+	public void thumbCnt(String account_id) {
+		userMapper.thumbCnt(account_id);
+	}
+	
+	public boolean thumbTime(String account_id) {
+		boolean check = userMapper.thumbTime(account_id);
+		
+		return check;
+	}
+	
+	public void thumbTimeChange(String account_id) {
+		userMapper.thumbTimeChange(account_id);
+	}
+	public void comment(HashMap<String, Object> comment) {
+		userMapper.comment(comment);
+	}
+	
+	public List<CommentVO> comment_view(int board_no1) {
+		userMapper.comment_view(board_no1);
+		List<CommentVO> c = userMapper.comment_view(board_no1);
+		
+		return c;
 	}
 }

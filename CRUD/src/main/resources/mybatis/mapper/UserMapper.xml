@@ -259,9 +259,57 @@
 	</if>
 	where
 		board_no = #{board_no1}
-		
-		
+
+</update>
+<update id="thumbCnt">
+	update
+		account
+	set
+		thumb_cnt = thumb_cnt +1, thumb_last_time = now()
+	where
+		id = #{account_id}
 </update>
 
+<select id="thumbCheck" resultType="int">
+	select
+		thumb_cnt
+	from
+		account
+	where
+		id = #{account_id}
+</select>
+
+<select id="thumbTime" resultType="boolean">
+	select
+		thumb_last_time::timestamp &lt; (now()::timestamp - '24hours'::interval)
+	from
+		account
+	where
+		id=#{account_id}
+</select>
+
+<update id="thumbTimeChange">
+	update
+		account
+	set
+		thumb_cnt = 0
+	where
+		id=#{account_id}
+</update>
+
+<insert id="comment" parameterType="HashMap">
+	insert into
+		comment
+	values
+		(#{board_no1}, #{comment_val},#{account_id})
+</insert>
+<select id="comment_view" resultType="com.example.vo.CommentVO">
+	select
+		board_no, text, comment_id, to_char(comment_time, 'yyyy-mm-dd hh24:mi:ss')
+	from
+		comment
+	where
+		board_no = #{board_no1}
+</select>
 
 </mapper>
