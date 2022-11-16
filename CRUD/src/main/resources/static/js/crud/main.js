@@ -7,7 +7,7 @@ let number = 0;
  				*/
  				
 /**
-	안녕
+	html 구성하는 공통적인 태그
 	* @param {int} number - start number 
  */
 const html_write = (number, data,i) => {
@@ -50,11 +50,16 @@ const html_write = (number, data,i) => {
 		}
 }
 
+/**
+게시글 누르면 상세 페이지 가는 링크
+ */
 function boardInfo(i) {
 	location.href="/board/boardInfo/?board_no=" + i; 
 }
 
-
+/**
+카테고리별로 구분해서 리스트 뽑아내는 함수
+ */
 const fn_category = (i) => {
 	number = 0;
 	category = i;
@@ -86,7 +91,10 @@ const fn_category = (i) => {
 		}
 	});
 }
-  
+
+/**
+검색 함수
+ */
 const search = () => {
 	number = 0;
 	let dropdown = document.getElementById("drop");
@@ -121,7 +129,10 @@ const search = () => {
 		}
 	});
 }
-  
+
+/**
+검색하고 나온 리스트들 페이징 함수
+ */
 const searchPage = (j)=> {
 	number = 0;
 	let dropdown = document.getElementById("drop");
@@ -143,6 +154,9 @@ const searchPage = (j)=> {
 	});  
 }
 
+/**
+리스트 페이징 함수
+ */
 const chagePage = (j)=> {
 	number = j-1;
 	let page = j;

@@ -305,7 +305,7 @@
 </insert>
 <select id="comment_view" resultType="com.example.vo.CommentVO">
 	select
-		board_no, text, comment_id, to_char(comment_time, 'yyyy-mm-dd hh24:mi:ss')
+		board_no, text, comment_id, to_char(comment_time, 'yyyy-mm-dd hh24:mi:ss') as comment_time
 	from
 		comment
 	where

@@ -59,8 +59,8 @@
 	<table class="table table-dark table-hover">
 		<tbody id="commTR">
 			<tr>
-				<td style="width: 20%;">kimseongjin</td>
-				<td style="width: 60%"> hoho </td>
+				<td style="width: 20%;">아이디</td>
+				<td style="width: 60%"> 내용 </td>
 				<td >시간</td>
 			</tr>
 		</tbody>
@@ -69,10 +69,17 @@
 		<span class="input-group-text">댓글</span>
 		<textarea class="form-control" rows="2" id="comment_board"></textarea>
 	</div>
-	<div class="text-end">
-		<input type="button" value="댓글 달기" onclick="comment()"></input>
+	<div class="row">
+		<div class="col-sm-6 text-start">
+			<input type="button" value="목록가기" onclick="mainPage()"></input>
+		</div>
+		<div class="col-sm-6 text-end">
+			<input type="button" value="댓글 달기" onclick="comment()"></input>
+		</div>
 	</div>
 </div>
+
+
 <!-- 컨트롤러에서 model로 보낸 값을 태그에 th명령어 안쓰고 js에서 받는 방법 !-->
 <script type="text/javascript" th:inline="javascript">
 	var board_no1 = /*[[${board_no}]]*/ null;

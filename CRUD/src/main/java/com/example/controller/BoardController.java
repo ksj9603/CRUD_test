@@ -228,7 +228,6 @@ public class BoardController {
 	public HashMap<String, Object> boardInfoData(@RequestParam("board_no1") int board_no1) {
 		List<BoardVO> board = boardService.boardInfoData(board_no1);
 		List<CommentVO> comm = boardService.comment_view(board_no1);
-		
 		HashMap<String, Object> go = new HashMap<String, Object>();
 		go.put("board", board);
 		go.put("comm", comm);

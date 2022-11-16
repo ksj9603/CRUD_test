@@ -1,14 +1,5 @@
 package com.example.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class BoardVO {
 	
 	private int board_no;
@@ -19,6 +10,9 @@ public class BoardVO {
 	private int likeboard;
 	private int hateboard;
 	
+	public BoardVO() {
+		
+	}
 	
 	public BoardVO(String title, String text, String account_id, String imagefile) {
 		this.title= title;
@@ -44,5 +38,63 @@ public class BoardVO {
 	public BoardVO(int board_no) {
 		this.board_no = board_no;
 	}
+
+	public int getBoard_no() {
+		return board_no;
+	}
+
+	public void setBoard_no(int board_no) {
+		this.board_no = board_no;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getAccount_id() {
+		return account_id;
+	}
+
+	public void setAccount_id(String account_id) {
+		this.account_id = account_id;
+	}
+
+	public String getImagefile() {
+		return imagefile;
+	}
+
+	public void setImagefile(String imagefile) {
+		this.imagefile = imagefile;
+	}
+
+	public int getLikeboard() {
+		return likeboard;
+	}
+
+	public void setLikeboard(int likeboard) {
+		this.likeboard = likeboard;
+	}
+
+	public int getHateboard() {
+		return hateboard;
+	}
+
+	public void setHateboard(int hateboard) {
+		this.hateboard = hateboard;
+	}
+	
+	
 
 }

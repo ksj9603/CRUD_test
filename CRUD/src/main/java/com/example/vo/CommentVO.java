@@ -7,6 +7,10 @@ public class CommentVO {
 	private String comment_id;
 	private String comment_time;
 	
+	public CommentVO() { 
+		
+	}
+	
 	public CommentVO(int board_no, String text, String comment_id, String comment_time) {
 		this.board_no = board_no;
 		this.text = text;
@@ -30,11 +34,11 @@ public class CommentVO {
 		this.text = text;
 	}
 
-	public String getId() {
+	public String getComment_id() {
 		return comment_id;
 	}
 
-	public void setId(String comment_id) {
+	public void setComment_id(String comment_id) {
 		this.comment_id = comment_id;
 	}
 
@@ -45,6 +49,8 @@ public class CommentVO {
 	public void setComment_time(String comment_time) {
 		this.comment_time = comment_time;
 	}
+
+
 	
 	
 }
