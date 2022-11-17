@@ -299,17 +299,35 @@
 
 <insert id="comment" parameterType="HashMap">
 	insert into
-		comment
+		comment(board_no, text, comment_id, parentno)
 	values
-		(#{board_no1}, #{comment_val},#{account_id})
+		(#{board_no1}, #{comment_val},#{account_id},#{parentno})
 </insert>
 <select id="comment_view" resultType="com.example.vo.CommentVO">
 	select
-		board_no, text, comment_id, to_char(comment_time, 'yyyy-mm-dd hh24:mi:ss') as comment_time
+		board_no, text, comment_id, to_char(comment_time, 'yyyy-mm-dd hh24:mi:ss') as comment_time, parentno, id
 	from
 		comment
 	where
 		board_no = #{board_no1}
+	order by
+		id ASC, parentno ASC
 </select>
+
+<select id="comment_parentno" resultType="int">
+	select
+		MAX("parentno")
+	from
+		comment
+	where
+		id=#{id}
+
+</select>
+<insert id="recomment" parameterType="HashMap">
+	insert into 
+		comment(board_no, text, comment_id, parentno, id)
+	values
+		(#{board_no1},#{text},#{account_id},#{parentno},#{id})
+</insert>
 
 </mapper>

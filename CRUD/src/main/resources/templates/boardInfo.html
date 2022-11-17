@@ -57,12 +57,16 @@
 <div class="container">
 <h4> 댓글 </h4>
 	<table class="table table-dark table-hover">
-		<tbody id="commTR">
+		<thead>
 			<tr>
 				<td style="width: 20%;">아이디</td>
 				<td style="width: 60%"> 내용 </td>
 				<td >시간</td>
+				<td></td>
 			</tr>
+		</thead>
+		<tbody id="commTR">
+		
 		</tbody>
 	</table>
 	<div class="input-group mb-3">
@@ -74,7 +78,7 @@
 			<input type="button" value="목록가기" onclick="mainPage()"></input>
 		</div>
 		<div class="col-sm-6 text-end">
-			<input type="button" value="댓글 달기" onclick="comment()"></input>
+			<input type="button" value="댓글 달기" onclick="comment(0)"></input>
 		</div>
 	</div>
 </div>

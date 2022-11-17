@@ -6,16 +6,36 @@ public class CommentVO {
 	private String text;
 	private String comment_id;
 	private String comment_time;
+	private int parentno;
+	private int id;
 	
 	public CommentVO() { 
 		
 	}
 	
-	public CommentVO(int board_no, String text, String comment_id, String comment_time) {
+	public CommentVO(int board_no, String text, String comment_id, String comment_time, int parentno, int id) {
 		this.board_no = board_no;
 		this.text = text;
 		this.comment_id = comment_id;
 		this.comment_time = comment_time;
+		this.parentno = parentno;
+		this.id = id;
+	}
+
+	public int getParentno() {
+		return parentno;
+	}
+
+	public void setParentno(int parentno) {
+		this.parentno = parentno;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getBoard_no() {

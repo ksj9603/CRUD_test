@@ -105,4 +105,14 @@ public class BoardService {
 		
 		return c;
 	}
+	
+	public int comment_parentno(int id) {
+		int parentno = userMapper.comment_parentno(id);
+		
+		return parentno;
+	}
+	
+	public void recomment(HashMap<String, Object> recomment) {
+		userMapper.recomment(recomment);
+	}
 }

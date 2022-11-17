@@ -77,4 +77,8 @@ public interface UserMapper {
 	public void comment(HashMap<String, Object> comment);
 	
 	public List<CommentVO> comment_view(int board_no1);
+	
+	public int comment_parentno(int id);
+	
+	public void recomment(HashMap<String, Object> recomment);
 }

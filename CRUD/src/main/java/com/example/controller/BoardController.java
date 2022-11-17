@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,7 @@ import com.example.vo.SearchVO;
 import lombok.NoArgsConstructor;
 
 @Controller
-@NoArgsConstructor
+@RequestMapping("board")
 public class BoardController {
 	int cate = 0;
 	@Autowired
@@ -33,7 +34,7 @@ public class BoardController {
 	
 	private final String dir = "C:\\Dev\\image\\";
 	
-	@GetMapping("/board/boardPage")
+	@GetMapping("/boardPage")
 	public String boardPage(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("loginSession") == null) {
@@ -43,7 +44,7 @@ public class BoardController {
 		return "board";
 	}
 	
-	@PostMapping("/board/boardUpload")
+	@PostMapping("/boardUpload")
 	public String boardUpload(Model model, @RequestParam("imageFiles") MultipartFile imageFiles, BoardVO boardVO, HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
 		System.out.println(imageFiles.getOriginalFilename());
@@ -64,7 +65,7 @@ public class BoardController {
 		model.addAttribute("id", session.getAttribute("loginSession"));
 		return "main";
 	}
-	@PostMapping("/board/boardAlter") 
+	@PostMapping("/boardAlter") 
 	public String boardAlter(Model model, BoardVO boardVO,@RequestParam("imageFiles") MultipartFile imageFiles, HttpServletRequest request) throws IOException {
 		HttpSession session = request.getSession();
 		if(!imageFiles.isEmpty()) {
@@ -84,12 +85,12 @@ public class BoardController {
 		
 		return "main";
 	}
-	@GetMapping("/board/boardList")
+	@GetMapping("/boardList")
 	public String boardList() {
 		return "/main";
 	}
 	
-	@PostMapping("/board/getBoardList")
+	@PostMapping("/getBoardList")
 	@ResponseBody
 	public List<BoardVO> boardList(@RequestParam("category") int category, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -107,7 +108,7 @@ public class BoardController {
 		System.out.println(boardList);
 		return boardList;
 	}
-	@PostMapping("/board/changePage")
+	@PostMapping("/changePage")
 	@ResponseBody
 	public List<BoardVO> changePage(@RequestParam("category") int category,@RequestParam("page") int page, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
 		searchVO.setPage(page);
@@ -126,7 +127,7 @@ public class BoardController {
 		return boardList;
 	}
 	
-	@PostMapping("/board/getAllBoardList")
+	@PostMapping("/getAllBoardList")
 	@ResponseBody
 	public List<BoardVO> boardList1(@RequestParam("category") int category, Model model, BoardVO boardVO, SearchVO searchVO ,HttpServletRequest request) {
 		
@@ -142,7 +143,7 @@ public class BoardController {
 		return boardList1;
 	}
 	
-	@GetMapping(value="/board/deleteBoard/*")
+	@GetMapping(value="/deleteBoard/*")
 	public String delUserList(@RequestParam int board_no, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String account_id = (String) session.getAttribute("loginSession");
@@ -156,7 +157,7 @@ public class BoardController {
 		return "/main";
 	}
 	
-	@GetMapping(value="/board/alterBoard/*")
+	@GetMapping(value="/alterBoard/*")
 	public String alterBoard(@RequestParam int board_no, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String a = (String)session.getAttribute("loginSession");
@@ -169,7 +170,7 @@ public class BoardController {
 		
 	}
 	
-	@PostMapping("/board/searchBoard")
+	@PostMapping("/searchBoard")
 	@ResponseBody
 	public List<BoardVO> searchBoard(@RequestParam("category") int category,@RequestParam("search") String search, @RequestParam("droper") String droper, SearchVO searchVO ,Model mode ,HttpServletRequest request) {
 //		System.out.println(searchVO.getRecordSize());
@@ -185,7 +186,7 @@ public class BoardController {
 		
 		return boardList;
 	}
-	@PostMapping("/board/searchBoardpage")
+	@PostMapping("/searchBoardpage")
 	@ResponseBody
 	public List<BoardVO> searchBoardpage(@RequestParam("category") int category,@RequestParam("search") String search, @RequestParam("page") int page,@RequestParam("droper") String droper, SearchVO searchVO ,Model mode ,HttpServletRequest request) {
 //		System.out.println(searchVO.getRecordSize());
@@ -201,7 +202,7 @@ public class BoardController {
 		return boardList;
 	}
 	
-	@PostMapping("/board/searchAllBoard")
+	@PostMapping("/searchAllBoard")
 	@ResponseBody
 	public List<BoardVO> searchAllBoard(@RequestParam("category") int category,@RequestParam("search") String search,@RequestParam("droper") String droper, Model model, HttpServletRequest request) {
 		HashMap<String, Object> board = new HashMap<String, Object>();
@@ -212,7 +213,7 @@ public class BoardController {
 		return boardList;
 	}
 	
-	@GetMapping("/board/boardInfo")
+	@GetMapping("/boardInfo")
 	public String boardInfo(@RequestParam int board_no, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		
@@ -223,7 +224,7 @@ public class BoardController {
 		return "/boardInfo";
 	}
 	
-	@PostMapping("/board/boardInfoData")
+	@PostMapping("/boardInfoData")
 	@ResponseBody
 	public HashMap<String, Object> boardInfoData(@RequestParam("board_no1") int board_no1) {
 		List<BoardVO> board = boardService.boardInfoData(board_no1);
@@ -234,7 +235,7 @@ public class BoardController {
 		return go;
 	}
 	
-	@PostMapping("/board/boardLikeHate")
+	@PostMapping("/boardLikeHate")
 	@ResponseBody
 	public List<BoardVO> boardLikeHate(@RequestParam("bt") int bt, @RequestParam("board_no1") int board_no1, @RequestParam("account_id") String account_id) {
 		
@@ -269,20 +270,38 @@ public class BoardController {
 		return board;
 	}
 	
-	@PostMapping("/board/comment")
+	@PostMapping("/comment")
 	@ResponseBody
-	public List<CommentVO> comment(@RequestParam("board_no1") int board_no1, @RequestParam("account_id") String account_id, @RequestParam("comment_val") String comment_val) {
+	public List<CommentVO> comment(@RequestParam("board_no1") int board_no1, @RequestParam("account_id") String account_id, @RequestParam("comment_val") String comment_val, @RequestParam("parentno") int parentno) {
 		
 		HashMap<String,Object> comment = new HashMap<String,Object>();
 		comment.put("board_no1", board_no1);
 		comment.put("comment_val", comment_val);
 		comment.put("account_id", account_id);
+		comment.put("parentno", parentno);
 		
 		boardService.comment(comment);
 		
 		List<CommentVO> comm = boardService.comment_view(board_no1);
 		
 		return comm;
+	}
+	
+	@PostMapping("/recommentView")
+	@ResponseBody
+	public String recommentView(@RequestParam("id") int id, @RequestParam("text") String text, @RequestParam("account_id") String account_id ,@RequestParam("board_no1") int board_no1 ) {
+		int pno = boardService.comment_parentno(id);
+		System.out.println(pno);
 		
+		HashMap<String, Object> hash = new HashMap<String, Object>();
+		hash.put("id", id);
+		hash.put("text", text);
+		hash.put("account_id", account_id);
+		hash.put("board_no1", board_no1);
+		hash.put("parentno", pno+1);
+		
+		boardService.recomment(hash);
+		System.out.println(id + text + account_id + pno+board_no1);
+		return null;
 	}
 }
