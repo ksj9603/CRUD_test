@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>답글</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <script src="/js/bootstrap.js"></script>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+  	
+  </script>
+</head>
+<body>
+
+<div class="container">
+<h1><p class="text-center">답글 작성</p></h1>
+
+  <div class="form-group">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">제목</span>
+      </div>
+      <input type="text" name="title" class="form-control">
+    </div>
+  </div>
+  <div class="form-group">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text">내용</span>
+      </div>
+      <textarea class="form-control" rows="5" name="text"></textarea>
+  </div>
+  </div>
+	<input type="file" name="imageFiles"/><br>
+  <input type="button" class="btn btn-primary" id="rebt" value="등록하기"></input>
+  
+</div>
+
+<!-- 컨트롤러에서 model로 보낸 값을 태그에 th명령어 안쓰고 js에서 받는 방법 !-->
+<script type="text/javascript" th:inline="javascript">
+	var board_no = /*[[${board_no}]]*/ null;
+</script>
+<script type="text/javascript" src="/js/crud/reboard.js"></script>
+</body>
+</html>

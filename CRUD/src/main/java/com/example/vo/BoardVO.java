@@ -9,6 +9,7 @@ public class BoardVO {
 	private String imagefile;
 	private int likeboard;
 	private int hateboard;
+	private int depth;
 	
 	public BoardVO() {
 		
@@ -21,13 +22,14 @@ public class BoardVO {
 		this.imagefile = imagefile;
 	}
 	
-	public BoardVO(String title, String text, String account_id, String imagefile, int likeboard, int hateboard) {
+	public BoardVO(String title, String text, String account_id, String imagefile, int likeboard, int hateboard, int depth) {
 		this.title= title;
 		this.text = text;
 		this.account_id = account_id;
 		this.imagefile = imagefile;
 		this.likeboard = likeboard;
 		this.hateboard = hateboard;
+		this.depth = depth;
 	}
 	
 	public BoardVO(int board_no, String account_id) {
@@ -93,6 +95,14 @@ public class BoardVO {
 
 	public void setHateboard(int hateboard) {
 		this.hateboard = hateboard;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
 	}
 	
 	

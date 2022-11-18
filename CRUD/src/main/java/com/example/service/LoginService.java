@@ -1,12 +1,12 @@
 package com.example.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.mapper.UserMapper;
 import com.example.vo.UserVO;
-
-import javax.transaction.Transactional;
 
 @Service
 @Transactional
@@ -53,5 +53,10 @@ public class LoginService {
 	public String checkNullId(UserVO userVO) {
 		String a = userMapper.checkNullId(userVO);
 		return a;
+	}
+	
+	public int loginCnt(UserVO userVO) {
+		int cnt = userMapper.loginCnt(userVO);
+		return cnt;
 	}
 }

@@ -23,8 +23,6 @@ import com.example.vo.BoardVO;
 import com.example.vo.CommentVO;
 import com.example.vo.SearchVO;
 
-import lombok.NoArgsConstructor;
-
 @Controller
 @RequestMapping("board")
 public class BoardController {
@@ -303,5 +301,13 @@ public class BoardController {
 		boardService.recomment(hash);
 		System.out.println(id + text + account_id + pno+board_no1);
 		return null;
+	}
+	
+	@GetMapping("/reboard")
+	public String reboard(@RequestParam("board_no") int board_no, Model model) {
+		System.out.println(board_no);
+		model.addAttribute("board_no",board_no);
+		
+		return "reboard";
 	}
 }

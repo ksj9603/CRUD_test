@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.vo.BoardVO;
 import com.example.vo.CommentVO;
-import com.example.vo.SearchVO;
 import com.example.vo.UserVO;
 
 @Mapper
@@ -81,4 +80,6 @@ public interface UserMapper {
 	public int comment_parentno(int id);
 	
 	public void recomment(HashMap<String, Object> recomment);
+	
+	public int loginCnt(UserVO userVO);
 }

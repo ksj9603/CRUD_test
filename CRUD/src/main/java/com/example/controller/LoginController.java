@@ -30,7 +30,6 @@ public class LoginController {
 	private BoardService boardService;
 	
 	int cate = 0;
-	int cnt = 0;
 	
 	@GetMapping("/")
 	public String loginPage(Model model, HttpServletRequest request) {
@@ -64,6 +63,7 @@ public class LoginController {
 		if(lock == false) {
 			boolean check = loginService.checkLogin(userVO); // 로그인 정보 일치 확인
 			if(check == false) {
+				int cnt = loginService.loginCnt(userVO);
 				cnt += 1;
 				userVO.setLogin_cnt(cnt);
 				loginService.cntChange(userVO); // 로그인시도 횟수 증가 
@@ -80,8 +80,8 @@ public class LoginController {
 					}
 				}else {
 					loginService.lastLogin(userVO);
-					cnt = 0;
-					userVO.setLogin_cnt(cnt);
+					
+					userVO.setLogin_cnt(0);
 					loginService.cntChange(userVO);
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", userVO.getId());
@@ -99,8 +99,8 @@ public class LoginController {
 						return 1;
 					}
 					loginService.lastLogin(userVO);
-					cnt = 0;
-					userVO.setLogin_cnt(cnt);
+
+					userVO.setLogin_cnt(0);
 					loginService.cntChange(userVO);
 					HttpSession session = request.getSession();
 					session.setAttribute("loginSession", userVO.getId());

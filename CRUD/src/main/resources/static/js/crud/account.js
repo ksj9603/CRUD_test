@@ -1,3 +1,6 @@
+/**
+회원가입 함수
+ */
 const addUser = () => {
 	  let id = $("#id").val();
 	  let pwd = $("#pwd").val();

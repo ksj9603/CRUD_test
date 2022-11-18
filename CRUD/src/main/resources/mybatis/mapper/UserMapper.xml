@@ -43,6 +43,16 @@
 	where 
 		id = #{id}
 </select>
+
+<select id="loginCnt" parameterType="com.example.vo.UserVO" resultType="int" >
+	select
+		login_cnt
+	from 
+		account
+	where
+		id=#{id}
+	
+</select>
 <update id="changeLock" parameterType="com.example.vo.UserVO">
 	update 
 		account
@@ -323,6 +333,7 @@
 		id=#{id}
 
 </select>
+
 <insert id="recomment" parameterType="HashMap">
 	insert into 
 		comment(board_no, text, comment_id, parentno, id)
