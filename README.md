@@ -3,14 +3,14 @@
 웹 포트폴리오 CRUD 게시판 만들기
 
 사용 언어 
-- JAVA
-- Javascript
-- HTML
-- Bootstrap5
+  - JAVA
+  - Javascript
+  - HTML
+  - Bootstrap5
 개발 툴 
-- STS4
+  - STS4
 DB 
-- postgresql
+  - postgresql
 
 구현한 것 
 1. 로그인 및 회원가입
