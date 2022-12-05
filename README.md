@@ -2,17 +2,17 @@
 
 웹 포트폴리오 CRUD 게시판 만들기
 
-사용 언어 
+# 사용 언어 
   - JAVA
   - Javascript
   - HTML
   - Bootstrap5
-개발 툴 
+# 개발 툴 
   - STS4
-DB 
+# DB 
   - postgresql
 
-구현한 것 
+# 구현한 것 
 1. 로그인 및 회원가입
   - 가입 시 ID 중복 확인
   - 로그인 3회 시도 실패시 계정 20초간 Lock
